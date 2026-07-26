@@ -15,27 +15,31 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Noto Sans TC',system-ui,-apple-system,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;}
-.wrap{max-width:none;margin:0 auto;padding:12px 16px 40px;}
-header{margin-bottom:8px;}
+.wrap{max-width:none;margin:0 auto;padding:12px 16px 14px;}
+header{margin-bottom:4px;}
 .rail{height:4px;border-radius:2px;margin:4px 0;
   background-image:radial-gradient(circle,var(--rail-red) 1.6px,transparent 2px);
   background-size:14px 4px;background-repeat:repeat-x;}
 .rail.blue{background-image:radial-gradient(circle,var(--rail-blue) 1.6px,transparent 2px);}
 .titleRow{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;}
-h1{font-size:20px;font-weight:700;letter-spacing:1px;}
+h1{font-size:19px;font-weight:700;letter-spacing:1px;}
 h1 .zap{color:var(--teal);}
 .sub{font-size:13px;color:var(--muted);}
-details.help{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px 14px;margin:8px 0;font-size:14px;}
+details.help{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:6px 14px;margin:6px 0;font-size:14px;}
 details.help summary{cursor:pointer;font-weight:500;color:var(--teal-dark);}
 details.help ol{padding-left:22px;margin-top:6px;}
 details.help li{margin:2px 0;}
-.layout{display:grid;grid-template-columns:216px minmax(0,1fr) 216px;gap:10px;align-items:start;}
-.side{display:flex;flex-direction:column;gap:8px;position:sticky;top:8px;
+.layout{display:grid;grid-template-columns:228px minmax(0,1fr) 228px;gap:10px;align-items:start;}
+.side{display:flex;flex-direction:column;gap:8px;position:sticky;top:8px;scrollbar-gutter:stable;
   max-height:calc(100vh - 16px);overflow-y:auto;padding-right:2px;}
 .main{display:flex;flex-direction:column;gap:8px;min-width:0;}
-.group{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px 10px;display:flex;flex-direction:column;gap:6px;}
+.stage{display:flex;flex-direction:column;}
+.group{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:7px 10px 8px;display:flex;flex-direction:column;gap:5px;}
 .group .eyebrow{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--copper);text-transform:uppercase;}
 .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.checkRow{flex-wrap:nowrap;align-items:flex-start;}
+.checkRow input[type=checkbox]{flex:0 0 auto;margin-top:2px;}
+.checkRow label{flex:1 1 auto;min-width:0;}
 button{font-family:inherit;font-size:14px;padding:6px 10px;border-radius:8px;border:1px solid var(--line);
   background:var(--card);color:var(--ink);cursor:pointer;transition:background .15s;}
 button:hover{background:var(--teal-tint);}
@@ -47,30 +51,84 @@ button.mode.on{background:var(--teal-tint);border-color:var(--teal);color:var(--
 button.wide{width:100%;text-align:left;}
 button.danger:hover{background:#FBEAEA;border-color:#D68A8A;color:#8F2626;}
 select,input[type=range]{font-family:inherit;font-size:14px;}
-select{padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);}
-label.small{font-size:13px;color:var(--muted);}
+select{padding:5px 8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  max-width:100%;min-width:0;}
+.side select{width:100%;}
+.side .row{max-width:100%;}
+.small,label.small{font-size:13px;line-height:1.45;color:var(--muted);}
+#consoleBody .small{display:block;}
 .legend{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);}
 .legend i{width:22px;height:12px;border-radius:6px;border:1px solid rgba(0,0,0,.2);flex:0 0 auto;}
 .legend i.multi{background:linear-gradient(90deg,#F2B705 0 25%,#1F9E4D 25% 50%,#2465D6 50% 75%,#F07F13 75% 100%);}
 input[type=range]{accent-color:var(--teal);}
 input[type=checkbox]{accent-color:var(--teal);width:16px;height:16px;}
 #selPanel.off{opacity:.45;pointer-events:none;}
-#paletteBar{display:flex;gap:8px;overflow-x:auto;padding:4px 2px;min-height:80px;align-items:flex-start;}
-.thumb{position:relative;width:76px;flex:0 0 auto;text-align:center;cursor:pointer;border:1px solid var(--line);
-  border-radius:8px;padding:6px 4px 4px;background:#FDFEFE;}
+.paletteHead{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.paletteHead button{padding:2px 8px;font-size:12px;}
+#paletteGroup.collapsed #paletteBar{display:none;}
+#paletteBar{display:flex;gap:6px;overflow-x:auto;padding:2px;min-height:62px;align-items:flex-start;}
+.thumb{position:relative;width:72px;flex:0 0 auto;text-align:center;cursor:pointer;border:1px solid var(--line);
+  border-radius:8px;padding:4px 4px 3px;background:#FDFEFE;}
 .thumb:hover{border-color:var(--teal);background:var(--teal-tint);}
-.thumb img{width:54px;height:44px;object-fit:contain;display:block;margin:0 auto;pointer-events:none;}
+.thumb img{width:50px;height:34px;object-fit:contain;display:block;margin:0 auto;pointer-events:none;}
 .thumb .nm{font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
 .thumb .rm{position:absolute;top:-7px;right:-7px;width:18px;height:18px;min-width:18px;padding:0;border-radius:50%;
   font-size:11px;line-height:1;background:#fff;border:1px solid var(--line-strong);color:var(--muted);}
 .thumb .rm:hover{background:#FBEAEA;color:#8F2626;border-color:#D68A8A;}
 #emptyPalette{font-size:13px;color:var(--muted);align-self:center;}
 .stage{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px;}
-canvas#cv{display:block;width:100%;border-radius:6px;touch-action:none;cursor:crosshair;background:#FAFBFB;}
-#hint{font-size:13px;color:var(--muted);margin-top:6px;min-height:40px;}
+canvas#cv{display:block;width:100%;margin:0 auto;border-radius:6px;touch-action:none;cursor:crosshair;background:#FAFBFB;}
+.codeOpen .main{display:grid;grid-template-columns:minmax(0,1fr) 404px;
+  grid-template-rows:auto minmax(0,1fr);gap:8px;align-content:start;}
+.codeOpen .main>.paletteGroup{grid-column:1;grid-row:1;}
+.codeOpen .main>.stage{grid-column:1;grid-row:2;}
+.codeOpen .main>#codePanel{grid-column:2;grid-row:1 / span 2;
+  position:sticky;top:8px;max-height:calc(100vh - 24px);overflow:hidden;}
+#codePanel{display:none;}
+.codeOpen #codePanel{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.codeOpen .editor{flex:1 1 auto;min-height:120px;}
+.codeOpen #code{height:100%;min-height:100px;resize:none;}
+.codeBox{position:relative;flex:1 1 auto;min-width:0;min-height:0;}
+.codeOpen #codePanel>.row{flex:0 0 auto;}
+.codeOpen #log{flex:0 0 auto;}
+#codePanel.logHidden #log{display:none;}
+@media (max-width:1200px){
+  .codeOpen .main{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;}
+  .codeOpen .main>.paletteGroup{grid-column:1;grid-row:1;}
+  .codeOpen .main>.stage{grid-column:1;grid-row:2;}
+  .codeOpen .main>#codePanel{grid-column:1;grid-row:3;}
+  .codeOpen #code{height:230px;}
+}
+.editor{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#FBFCFC;}
+.gutter{flex:0 0 44px;padding:8px 6px 8px 0;text-align:right;overflow:hidden;white-space:pre;
+  font:13px/20px ui-monospace,Menlo,Consolas,monospace;color:#9AABAA;background:#F1F5F4;user-select:none;}
+#hlLayer{position:absolute;top:0;left:0;right:0;bottom:0;padding:8px 10px;overflow:hidden;pointer-events:none;}
+#hlLayer div{height:20px;border-radius:3px;}
+#hlLayer div.run{background:rgba(0,135,143,.20);}
+#hlLayer div.match{background:rgba(242,183,5,.32);}
+#code{position:relative;display:block;width:100%;height:236px;padding:8px 10px;border:0;outline:none;resize:vertical;
+  background:transparent;color:var(--ink);white-space:pre;overflow:auto;
+  font:13px/20px ui-monospace,Menlo,Consolas,monospace;}
+#consoleBody{display:flex;flex-direction:column;gap:8px;}
+.ctrlRow{display:flex;flex-direction:column;gap:2px;border-top:1px dashed var(--line);padding-top:6px;}
+.ctrlRow:first-child{border-top:0;padding-top:0;}
+.ctrlName{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:6px;}
+.ctrlName b{color:var(--ink);font-weight:500;}
+.ctrlRow input[type=range]{width:100%;}
+.ctrlRow button{padding:4px 8px;font-size:13px;}
+.ctrlRow button.on{background:#1F8A4C;border-color:#166B3A;color:#fff;}
+#log{height:86px;overflow:auto;background:#152423;color:#CFE7E4;border-radius:8px;padding:6px 10px;
+  font:12px/18px ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;}
+#log b{color:#7FD6C4;font-weight:500;}
+#log i{color:#F2A8A8;font-style:normal;}
+button.run{background:#1F8A4C;border-color:#166B3A;color:#fff;font-weight:500;}
+button.run:hover{background:#166B3A;}
+button.stop{background:#B3261E;border-color:#8F1D17;color:#fff;font-weight:500;}
+button.stop:hover{background:#8F1D17;}
+#hint{font-size:13px;color:var(--muted);margin-top:6px;min-height:20px;}
 #hint.ok{color:#1F7A3D;font-weight:500;}
 #hint.bad{color:#B3261E;font-weight:500;}
-footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
+.verTag{font-size:11px;color:var(--muted);text-align:center;padding:2px 0 0;letter-spacing:.5px;}
 @media (max-width:1000px){
   .layout{grid-template-columns:1fr;}
   .side{position:static;max-height:none;overflow:visible;flex-direction:row;flex-wrap:wrap;}
@@ -87,7 +145,7 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
   <div class="rail"></div>
   <div class="titleRow">
     <h1><span class="zap">⌁</span> 開發板接線模擬器</h1>
-    <span class="sub">支援 Arduino、ESP32、micro:bit⋯⋯上傳照片、標記腳位、點擊接線。</span>
+    <span class="sub">(上傳照片→標記腳位→點擊接線→簡易模擬)</span>
   </div>
   <div class="rail blue"></div>
 </header>
@@ -102,7 +160,14 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
     <li><b>聚焦模式與旋轉</b>：右欄的「聚焦模式」會淡化開發板上未標記腳位的區域，只保留腳位附近清晰，接線路徑一眼對焦；在「移動」模式點選感測器後，可用旋轉滑桿或「旋轉 90°」按鈕調整方向，腳位與接線都會跟著轉。</li>
     <li><b>畫筆／橡皮擦</b>：畫筆為灰色手繪，適合補充註記或圈重點；橡皮擦劃過手繪線或接線皆可刪除。教學換板或換腳位配置時，可用「清除開發板腳位」一鍵清空開發板上的標記重新標（感測器腳位會保留）。</li>
     <li><b>檢查接線</b>：一鍵檢查是否有電源／接地互接的錯誤。</li>
-    <li><b>存檔與發布</b>：「匯出圖片」下載 PNG；「儲存／讀取進度」保留專案；老師建置好圖片與腳位後按「匯出成品網頁」，產生內嵌所有素材的 HTML，直接發布給學生使用。</li>
+    <li><b>程式碼與模擬</b>：按左欄「&lt;/&gt; 顯示程式碼區」開啟編輯器，可自行輸入或「載入範例程式」。按「▶ 執行」後系統會依程式控制腳位，<b>接線正確的感測器才會出現效果</b>——LED 依亮度發光、蜂鳴器出現聲波、伺服馬達指針轉動，通電的導線上還有電流流動動畫；忘記接 G 或 V 會直接顯示警示，這正是最好的除錯練習。速度可調 0.5～5 倍，Serial.println 的輸出會顯示在下方監控視窗。</li>
+    <li><b>程式與腳位對應</b>：程式碼用到的腳位，畫布上會出現青色圓環；把游標移到程式碼某一行，該行用到的腳位會閃動。切到「🔍 程式對應」模式點畫布上的腳位，程式碼中對應的行會被標示。按「🔗 檢查程式與接線」可列出「程式用了但沒接線」「接了線但程式沒用到」「缺少電源或接地」等問題。</li>
+    <li><b>接線直接帶入程式碼</b>：勾選「接線改變時自動更新程式碼中的腳位號碼」後，只要把 LED 的 S 接到 D5，程式碼中的腳位就會是 5；若程式碼是空的，接線完成時會自動寫好一份可執行的程式。任何時候也可按「✨ 依接線產生程式碼」重新產生——系統會依畫布上的感測器組合自動寫出合適的互動邏輯（例如光敏＋LED 會產生門檻判斷式、超音波＋蜂鳴器會產生測距警示、PIR＋伺服馬達會產生偵測動作），並自動加上需要的 #include 與函式庫物件宣告。改接到別的腳位時，程式碼中的號碼會跟著更新，不必手動改。</li>
+    <li><b>互動控制（自由組合）</b>：右欄「互動控制台」會列出畫布上所有輸入感測器，執行模擬時即可即時操作：<b>按鈕</b>按住＝HIGH；<b>數位感測器</b>（PIR、傾斜、避障⋯）用切換鈕改變 HIGH／LOW；<b>類比感測器</b>（光敏、土壤濕度、可變電阻⋯）拉滑桿改變 0～1023；<b>超音波</b>拉滑桿改變距離（cm）；<b>溫濕度</b>可分別調整溫度與濕度。按鈕也可直接在畫布上按住圖片。感測器的 V 或 G 沒接好時讀值為 0，與真實電路一致。<br>例如「光敏偵測變化開啟 LED」：光敏 AO 接 A0、LED 的 S 接 D5，程式用 <code>if (analogRead(A0) &lt; 400) digitalWrite(5, HIGH);</code>，執行後拉動光線滑桿，燈就會自動亮暗。</li>
+    <li><b>支援的函式庫寫法</b>：除了 pinMode／digitalWrite／analogWrite／analogRead／digitalRead／tone／delay／pulseIn／map 等基本指令，也支援常見模組的函式庫語法：<code>Servo</code>（attach／write／read）、<code>DHT</code>（begin／readTemperature／readHumidity）、<code>NewPing</code>（ping_cm／ping）、<code>LiquidCrystal_I2C</code>（init／backlight／clear／setCursor／print，文字會顯示在畫布上的顯示器模組）、<code>LedControl</code>、<code>Adafruit_NeoPixel</code>、<code>SoftwareSerial</code>。<code>#include</code> 可照常寫。也支援自訂函式（含回傳值）、for／while／if-else 與 Serial 輸出。</li>
+    <li><b>馬達與驅動模組</b>：把 L9110S、L298N 等驅動模組的效果設為「馬達／驅動模組（雙腳位）」，系統會依<b>兩支控制腳</b>判斷動作：第一支 HIGH＝正轉、第二支 HIGH＝反轉、兩支皆 LOW＝停止、兩支皆 HIGH＝煞車，用 analogWrite 則顯示轉速百分比。輸出端腳位請命名為含 <code>OA+</code>、<code>M-</code>、<code>OUT</code> 等字樣，系統會辨識為輸出而不產生程式變數；把 N20 馬達（腳位命名 <code>M+</code>／<code>M-</code>）接到驅動模組的輸出端，馬達就會<b>跟著驅動模組一起轉動</b>——沒接輸出端就不會動，與實際接線一致。</li>
+    <li><b>模擬效果設定</b>：在「移動」模式選取感測器後，右欄可指定效果類型（LED 發光／蜂鳴器／伺服馬達／馬達驅動／文字顯示器／按鈕／數位／類比／超音波／溫濕度／一般指示／無效果）與發光顏色，設定會套用到同款感測器並存入專案。</li>
+    <li><b>存檔與發布</b>：「匯出圖片」下載 PNG；「儲存／讀取進度」保留專案（含程式碼）；老師建置好圖片、腳位與起始程式碼後按「匯出成品網頁」，產生內嵌所有素材的 HTML，直接發布給學生使用。</li>
   </ol>
 </details>
 
@@ -114,7 +179,8 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
     <button class="mode on" data-mode="connect">🔗 接線</button>
     <button class="mode" data-mode="move">✋ 移動</button>
     <button class="mode" data-mode="draw">✏️ 畫筆</button>
-    <button class="mode" data-mode="erase">🩹 橡皮擦</button>
+    <button class="mode" data-mode="erase">⌫ 橡皮擦</button>
+    <button class="mode" data-mode="codemap">🔍 程式對應</button>
   </div>
   <div class="group">
     <span class="eyebrow">配色規則（自動）</span>
@@ -125,6 +191,7 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
   </div>
   <div class="group">
     <span class="eyebrow">畫布動作</span>
+    <button id="codeToggleBtn" class="wide">&lt;/&gt; 顯示程式碼區</button>
     <button id="checkBtn" class="wide">✔ 檢查接線</button>
     <button id="undoBtn" class="wide">↩ 復原</button>
     <button id="clearWireBtn" class="wide">清除接線</button>
@@ -132,16 +199,64 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
     <button id="clearAllBtn" class="wide danger">全部清除</button>
     <button id="exportBtn" class="wide primary">⬇ 匯出圖片</button>
   </div>
+  <div class="verTag">開發板接線模擬器 v17</div>
 </aside>
 
 <main class="main">
-  <div class="group">
-    <span class="eyebrow">感測器圖庫（點縮圖加入畫布）</span>
+  <div class="group paletteGroup" id="paletteGroup">
+    <div class="paletteHead">
+      <span class="eyebrow">感測器圖庫（點縮圖加入畫布）</span>
+      <button id="paletteToggle">▴ 收合圖庫</button>
+    </div>
     <div id="paletteBar"><span id="emptyPalette">尚未上傳感測器圖片。</span></div>
   </div>
   <div class="stage">
-    <canvas id="cv"></canvas>
-    <p id="hint"></p>
+      <canvas id="cv"></canvas>
+      <p id="hint"></p>
+  </div>
+  <div class="group" id="codePanel">
+    <span class="eyebrow">程式碼（Arduino 語法簡化版）</span>
+    <div class="row">
+      <button id="runBtn" class="run">▶ 執行</button>
+      <button id="stopBtn" class="stop">⏹ 停止</button>
+      <select id="speedSel" aria-label="執行速度">
+        <option value="0.5">0.5 倍速</option>
+        <option value="1" selected>1 倍速</option>
+        <option value="2">2 倍速</option>
+        <option value="5">5 倍速</option>
+      </select>
+      <select id="sampleSel" aria-label="範例程式">
+        <option value="">載入範例程式⋯</option>
+        <option value="blink">LED 閃爍</option>
+        <option value="breath">LED 呼吸燈</option>
+        <option value="two">兩顆 LED 交替</option>
+        <option value="buzzer">蜂鳴器嗶嗶聲</option>
+        <option value="servo">伺服馬達擺動</option>
+        <option value="btnled">按鈕控制 LED（互動）</option>
+      <option value="light">光敏偵測自動開燈</option>
+      <option value="sonar">超音波倒車雷達</option>
+      <option value="dht">溫濕度顯示（函式庫）</option>
+      <option value="lcd">LCD 顯示文字（函式庫）</option>
+      <option value="motor">L9110S 馬達正反轉</option>
+      <option value="matrix">跑馬燈（for 迴圈）</option>
+      </select>
+      <button id="genBtn">✨ 依接線產生程式碼</button>
+      <button id="matchBtn">🔗 檢查程式與接線</button>
+      <button id="clearCodeBtn">清空程式碼</button>
+      <button id="logToggleBtn">⌄ 收合監控視窗</button>
+    </div>
+    <div class="row checkRow">
+      <input type="checkbox" id="syncChk" checked>
+      <label class="small" for="syncChk">接線改變時自動更新程式碼中的腳位號碼</label>
+    </div>
+    <div class="editor">
+      <div class="gutter" id="gutter">1</div>
+      <div class="codeBox">
+        <div id="hlLayer"></div>
+        <textarea id="code" spellcheck="false" aria-label="程式碼輸入區"></textarea>
+      </div>
+    </div>
+    <div id="log">序列埠監控視窗：按「▶ 執行」開始模擬。</div>
   </div>
 </main>
 
@@ -154,13 +269,17 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
       <label class="small" for="boardScale">底圖大小</label>
       <input type="range" id="boardScale" min="30" max="100" value="90" step="1" style="width:100px;">
     </div>
-    <div class="row">
+    <div class="row checkRow">
       <input type="checkbox" id="labelChk" checked>
       <label class="small" for="labelChk">顯示名稱</label>
     </div>
-    <div class="row">
+    <div class="row checkRow">
       <input type="checkbox" id="focusChk" checked>
       <label class="small" for="focusChk">聚焦模式（淡化未用區域）</label>
+    </div>
+    <div class="row checkRow">
+      <input type="checkbox" id="fitChk" checked>
+      <label class="small" for="fitChk">畫布配合視窗高度（免捲動）</label>
     </div>
   </div>
   <div class="group off" id="selPanel">
@@ -174,7 +293,38 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
       <input type="range" id="itemRot" min="0" max="359" value="0" step="1" style="width:100px;">
     </div>
     <button id="rot90Btn" class="wide">↻ 旋轉 90°</button>
+    <label class="small" for="effectSel">效果</label>
+    <div class="row">
+      <select id="effectSel">
+        <optgroup label="輸出（被程式控制）">
+          <option value="led">LED 發光</option>
+          <option value="buzzer">蜂鳴器</option>
+          <option value="servo">伺服馬達</option>
+          <option value="motor">馬達／驅動模組（雙腳位）</option>
+          <option value="display">文字顯示器（LCD）</option>
+        </optgroup>
+        <optgroup label="輸入（可互動調整）">
+          <option value="button">按鈕（按住＝HIGH）</option>
+          <option value="digitalIn">數位感測器（開關切換）</option>
+          <option value="analogIn">類比感測器（0～1023）</option>
+          <option value="ultrasonic">超音波測距（cm）</option>
+          <option value="dht">溫濕度感測器</option>
+        </optgroup>
+        <optgroup label="其他">
+          <option value="generic">一般指示</option>
+          <option value="none">無效果</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="row">
+      <label class="small" for="ledColor">發光顏色</label>
+      <input type="color" id="ledColor" value="#FF3B30" style="width:44px;height:28px;padding:0;border:1px solid var(--line);border-radius:6px;background:none;">
+    </div>
     <button id="delBtn" class="wide danger">🗑 刪除選取</button>
+  </div>
+  <div class="group" id="consolePanel">
+    <span class="eyebrow">互動控制台（模擬輸入）</span>
+    <div id="consoleBody"><span class="small">尚未加入可互動的輸入感測器。</span></div>
   </div>
   <div class="group">
     <span class="eyebrow">檔案</span>
@@ -185,7 +335,6 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
 </aside>
 </div>
 
-<footer>開發板接線模擬器 v7 · 適用電腦、平板觸控操作 · 匯出圖片為 PNG 格式</footer>
 </div>
 
 <input type="file" id="boardFile" accept="image/*" hidden>
@@ -196,9 +345,20 @@ footer{margin-top:10px;font-size:12px;color:var(--muted);text-align:center;}
 (function(){
 'use strict';
 var PRISTINE='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
-var W=1600,H=800,DPR=2;
+var W=1600,H=1067,DPR=2;      /* 預設 3:2；配合視窗時會依可用空間微調 */
 var cv=document.getElementById('cv');
 cv.width=W*DPR; cv.height=H*DPR;
+function setCanvasSize(nw,nh){
+  nw=Math.round(nw); nh=Math.round(nh);
+  if(nw===W&&nh===H)return false;
+  var sx=nw/W, sy=nh/H;
+  W=nw; H=nh;
+  cv.width=W*DPR; cv.height=H*DPR;
+  items.forEach(function(it){ it.x*=sx; it.y*=sy; });
+  strokes.forEach(function(st){ st.pts.forEach(function(q){ q.x*=sx; q.y*=sy; }); });
+  focusCache={key:'',cv:null};
+  return true;
+}
 var ctx=cv.getContext('2d');
 
 var board={img:null,dataUrl:null,scale:0.9};
@@ -211,6 +371,9 @@ var hist=[];
 var cur=null, sel=null, dragOff=null, erasing=false;
 var pending=null, mousePt=null;
 var mode='connect', penWidth=5, showLabels=true, focusMode=true;
+var pinState={};      /* 腳位鍵 → {mode,val,tone,servo} */
+var running=false, anim=0, codePins={}, matchLines=[], runLine=0;
+var pressed={}, pressing=null;
 var idc=0, spawnN=0;
 var PEN_COLOR='#8A8F98', PEN_WIDTH=4;
 var SIGNAL_COLORS=['#F2B705','#1F9E4D','#2465D6','#F07F13','#8E44AD','#0E9AA7','#D81B8C','#8B5E3C'];
@@ -415,10 +578,23 @@ function scene(c,forExport){
       c.fillText(p.name,bb.cx,bb.cy+bb.hh+14);
     }
   });
+  if(running)drawEffects(c);
   connections.forEach(function(cn){
     var A=resolvePin(cn.a),B=resolvePin(cn.b);
     if(!A||!B)return;
     drawWire(c,A,B,cn.color,isBad(cn),cn.width||penWidth);
+    if(running&&!forExport&&wireHot(cn)){
+      var cc2=connCtrl(A,B);
+      c.save();
+      c.strokeStyle='rgba(255,255,255,.85)';
+      c.lineWidth=Math.max(1.5,(cn.width||penWidth)-2.2);
+      c.setLineDash([7,13]);
+      c.lineDashOffset=-(anim*0.9)%20;
+      c.beginPath();c.moveTo(A.x,A.y);
+      c.bezierCurveTo(cc2[0].x,cc2[0].y,cc2[1].x,cc2[1].y,B.x,B.y);
+      c.stroke();
+      c.restore();
+    }
   });
   if(pending&&mousePt&&!forExport){
     var P=resolvePin(pending);
@@ -432,6 +608,22 @@ function scene(c,forExport){
   }
   boardPins.forEach(function(p){
     var pos=boardPinPos(p);
+    var key=pinKey(p.name);
+    if(!forExport&&codePins[key]){
+      c.beginPath();c.arc(pos.x,pos.y,12,0,7);
+      c.strokeStyle='rgba(0,135,143,.75)';c.lineWidth=2;c.stroke();
+    }
+    if(!forExport&&matchLines.indexOf(key)>=0){
+      c.beginPath();c.arc(pos.x,pos.y,16+3*Math.sin(anim/6),0,7);
+      c.strokeStyle='rgba(242,183,5,.95)';c.lineWidth=3;c.stroke();
+    }
+    if(running&&pinState[key]&&pinState[key].val>0){
+      var rr=13+3*Math.sin(anim/5);
+      var gg=c.createRadialGradient(pos.x,pos.y,2,pos.x,pos.y,rr+8);
+      gg.addColorStop(0,'rgba(255,236,140,.95)');
+      gg.addColorStop(1,'rgba(255,236,140,0)');
+      c.fillStyle=gg;c.beginPath();c.arc(pos.x,pos.y,rr+8,0,7);c.fill();
+    }
     drawPinDot(c,pos.x,pos.y,p.type,p.name);
   });
   items.forEach(function(it){
@@ -519,7 +711,7 @@ function eraseAt(p){
       var dx=q.x-p.x,dy=q.y-p.y;return dx*dx+dy*dy<324;
     });
   });
-  if(connections.length!==m)changed=true;
+  if(connections.length!==m){changed=true;afterWiringChange(false);}
   if(changed)render();
 }
 
@@ -542,6 +734,13 @@ function wireColor(A,B){
 cv.addEventListener('pointerdown',function(e){
   e.preventDefault(); cv.setPointerCapture(e.pointerId);
   var p=pt(e); mousePt=p;
+  if(running){
+    var bi=hitItem(p);
+    var bpal=bi?palette.find(function(q){return q.id===bi.pid;}):null;
+    if(bi&&bpal&&bpal.effect==='button'){ pressItem(bi,true); render(); return; }
+    say('模擬執行中：可點畫布上的按鈕模組進行互動；要編輯畫布請先按「⏹ 停止」。');
+    return;
+  }
   if(mode==='pin'){
     var hp=hitPin(p);
     if(hp){
@@ -602,6 +801,7 @@ cv.addEventListener('pointerdown',function(e){
     pending=null;
     if(isBad(cn)) say('⚠ 注意：'+A.label+' 接到了 '+B.label+'——電源與接地互接會短路！','bad');
     else say('✔ 已連接：'+A.label+' ↔ '+B.label+'。','ok');
+    afterWiringChange(true);
     render();
   }
   else if(mode==='move'){
@@ -611,6 +811,23 @@ cv.addEventListener('pointerdown',function(e){
   }
   else if(mode==='draw'){
     cur={color:PEN_COLOR,width:PEN_WIDTH,pts:[p]}; render();
+  }
+  else if(mode==='codemap'){
+    var hp3=hitPin(p);
+    if(!hp3){ matchLines=[]; paintHighlight(); say('點一下腳位，就會標出程式碼中用到它的行數。'); render(); return; }
+    var key3=(hp3.ref.t==='b')?pinKey(hp3.obj.name):null;
+    if(!key3){ say('這是感測器上的腳位；請點開發板上的腳位（例如 D9、A0）來對應程式碼。'); render(); return; }
+    scanCodePins();
+    var lines=codePins[key3];
+    matchLines=[key3];
+    if(lines&&lines.length){
+      highlightCodeLines(lines);
+      say('腳位 '+hp3.obj.name+' 對應程式碼第 '+lines.join('、')+' 行（已在程式碼區標示）。','ok');
+    }else{
+      highlightCodeLines([]);
+      say('程式碼中沒有用到腳位 '+hp3.obj.name+'。','bad');
+    }
+    render();
   }
   else{ erasing=true; eraseAt(p); }
 });
@@ -628,7 +845,11 @@ cv.addEventListener('pointermove',function(e){
   }else if(mode==='draw'&&cur){ cur.pts.push(p); render(); }
   else if(mode==='erase'&&erasing){ eraseAt(p); }
 });
-function up(){ if(cur){strokes.push(cur);hist.push({k:'s'});cur=null;} dragOff=null; erasing=false; render(); }
+function up(){
+  if(pressing){pressItem(pressing,false);render();return;}
+  if(cur){strokes.push(cur);hist.push({k:'s'});cur=null;}
+  dragOff=null; erasing=false; render();
+}
 cv.addEventListener('pointerup',up); cv.addEventListener('pointercancel',up);
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'&&pending){pending=null;say('已取消接線。');render();}
@@ -643,25 +864,37 @@ var HINTS={
   connect:'接線模式：點一下起點腳位 → 再點終點腳位，接線完成後會跟著感測器與底圖移動。',
   move:'移動模式：拖曳感測器換位置，點選後可縮放、旋轉或刪除。',
   draw:'畫筆模式：以灰色自由手繪，適合補充註記或圈重點。',
-  erase:'橡皮擦模式：劃過手繪線或接線即可刪除。'};
+  erase:'橡皮擦模式：劃過手繪線或接線即可刪除。',
+  codemap:'程式對應模式：點開發板上的腳位，程式碼中用到它的行會被標示（反之，把游標移到程式碼某一行，畫布上對應的腳位會閃動）。'};
 var selPanel=document.getElementById('selPanel');
 var itemScale=document.getElementById('itemScale');
 var itemRot=document.getElementById('itemRot');
 function setSel(s){
   sel=s;
   selPanel.classList.toggle('off',!s);
-  if(s){itemScale.value=Math.round(s.scale*100);itemRot.value=Math.round(s.rot||0);}
+  if(s){
+    itemScale.value=Math.round(s.scale*100);
+    itemRot.value=Math.round(s.rot||0);
+    var pal=palette.find(function(q){return q.id===s.pid;});
+    if(pal){
+      document.getElementById('effectSel').value=pal.effect||'generic';
+      document.getElementById('ledColor').value=pal.ledColor||'#FF3B30';
+    }
+  }
 }
+function selPal(){ return sel?palette.find(function(q){return q.id===sel.pid;}):null; }
 function removeSel(){
   if(!sel)return;
   items=items.filter(function(o){return o!==sel;});
-  setSel(null); pruneConnections(); render();
+  setSel(null); pruneConnections(); renderConsole(); render();
 }
 function setMode(m){
   mode=m; setSel(null); pending=null;
   document.querySelectorAll('button.mode').forEach(function(b){b.classList.toggle('on',b.dataset.mode===m);});
-  cv.style.cursor=(m==='draw'||m==='pin')?'crosshair':(m==='erase'?'cell':(m==='connect'?'pointer':'grab'));
+  cv.style.cursor=(m==='draw'||m==='pin')?'crosshair':(m==='erase'?'cell':((m==='connect'||m==='codemap')?'pointer':'grab'));
+  if(m!=='codemap'){matchLines=[];if(typeof paintHighlight==='function')paintHighlight();}
   say(HINTS[m]); render();
+  if(typeof scheduleFit==='function')scheduleFit();
 }
 document.querySelectorAll('button.mode').forEach(function(b){
   b.addEventListener('click',function(){setMode(b.dataset.mode);});
@@ -673,6 +906,16 @@ document.getElementById('rot90Btn').addEventListener('click',function(){
   sel.rot=(((sel.rot||0)+90)%360);
   itemRot.value=sel.rot;
   render();
+});
+document.getElementById('effectSel').addEventListener('change',function(e){
+  var pal=selPal(); if(!pal)return;
+  pal.effect=e.target.value;
+  say('已將「'+pal.name+'」的模擬效果設為：'+e.target.selectedOptions[0].textContent+'（同款感測器共用此設定）。');
+  renderConsole();render();
+});
+document.getElementById('ledColor').addEventListener('input',function(e){
+  var pal=selPal(); if(!pal)return;
+  pal.ledColor=e.target.value; render();
 });
 document.getElementById('delBtn').addEventListener('click',removeSel);
 document.getElementById('undoBtn').addEventListener('click',function(){
@@ -691,7 +934,7 @@ document.getElementById('clearPinsBtn').addEventListener('click',function(){
   say('已清除開發板腳位標記，可用「標記腳位」模式重新標記新的配置。');
 });
 document.getElementById('clearAllBtn').addEventListener('click',function(){
-  strokes=[];connections=[];items=[];cur=null;pending=null;hist=[];setSel(null);render();
+  strokes=[];connections=[];items=[];cur=null;pending=null;hist=[];setSel(null);renderConsole();render();
 });
 document.getElementById('labelChk').addEventListener('change',function(e){showLabels=e.target.checked;render();});
 document.getElementById('focusChk').addEventListener('change',function(e){focusMode=e.target.checked;render();});
@@ -737,7 +980,8 @@ sensorFile.addEventListener('change',function(){
     return chain.then(function(){
       return processFile(f,900).then(function(r){
         var nm=prompt('這個感測器的名稱？',f.name.replace(/\.[^.]+$/,''))||f.name.replace(/\.[^.]+$/,'');
-        palette.push({id:uid('p'),name:nm,dataUrl:r.dataUrl,img:r.img,pins:[]});
+        palette.push({id:uid('p'),name:nm,dataUrl:r.dataUrl,img:r.img,pins:[],
+          effect:guessEffect(nm),ledColor:'#FF3B30'});
       });
     });
   },Promise.resolve()).then(function(){renderPalette();});
@@ -770,7 +1014,7 @@ function renderPalette(){
       items=items.filter(function(it){return it.pid!==p.id;});
       if(sel&&sel.pid===p.id)setSel(null);
       pruneConnections();
-      renderPalette(); render();
+      renderPalette(); renderConsole(); render();
     });
     nm.addEventListener('dblclick',function(e){
       e.stopPropagation();
@@ -782,11 +1026,12 @@ function renderPalette(){
       items.push({id:uid('i'),pid:p.id,x:40+sp*46,y:36+sp*40,scale:1});
       spawnN++;
       say('已加入「'+p.name+'」'+(pinN?'，可直接在「接線」模式點腳位連線。':'，記得先用「標記腳位」模式幫它標上針腳。'));
-      render();
+      renderConsole();render();
     });
     d.appendChild(rm); d.appendChild(im); d.appendChild(nm);
     paletteBar.appendChild(d);
   });
+  scheduleFit();
 }
 
 /* ---------- 匯出圖片 ---------- */
@@ -803,11 +1048,15 @@ document.getElementById('exportBtn').addEventListener('click',function(){
 
 /* ---------- 專案儲存 / 讀取 ---------- */
 function projectData(){
-  return{v:3,
+  return{v:8,
     board:board.dataUrl?{dataUrl:board.dataUrl,scale:board.scale}:null,
-    palette:palette.map(function(p){return{id:p.id,name:p.name,dataUrl:p.dataUrl,pins:p.pins||[]};}),
+    palette:palette.map(function(p){return{id:p.id,name:p.name,dataUrl:p.dataUrl,pins:p.pins||[],
+      effect:p.effect||'generic',ledColor:p.ledColor||'#FF3B30'};}),
+    code:document.getElementById('code').value,
+    codeOpen:document.body.classList.contains('codeOpen'),
     items:items, boardPins:boardPins, connections:connections,
-    strokes:strokes, showLabels:showLabels, focusMode:focusMode};
+    strokes:strokes, showLabels:showLabels, focusMode:focusMode, fitHeight:fitHeight,
+    canvasW:W, canvasH:H};
 }
 function downloadBlob(content,type,name){
   var a=document.createElement('a');
@@ -838,7 +1087,10 @@ function loadProject(d){
     board.dataUrl=d.board.dataUrl; board.scale=d.board.scale||0.9;
     tasks.push(loadImg(board.dataUrl).then(function(im){board.img=im;}));
   }
-  palette=(d.palette||[]).map(function(p){return{id:p.id,name:p.name,dataUrl:p.dataUrl,img:null,pins:p.pins||[]};});
+  palette=(d.palette||[]).map(function(p){return{id:p.id,name:p.name,dataUrl:p.dataUrl,img:null,pins:p.pins||[],
+    effect:p.effect||guessEffect(p.name),ledColor:p.ledColor||'#FF3B30'};});
+  if(typeof d.code==='string'){document.getElementById('code').value=d.code;}
+  if(d.codeOpen)document.body.classList.add('codeOpen');
   palette.forEach(function(p){ tasks.push(loadImg(p.dataUrl).then(function(im){p.img=im;})); });
   items=(d.items||[]).map(function(it){ if(!it.id)it.id=uid('i'); return it; });
   boardPins=d.boardPins||[];
@@ -849,7 +1101,16 @@ function loadProject(d){
   document.getElementById('labelChk').checked=showLabels;
   focusMode=(d.focusMode!==false);
   document.getElementById('focusChk').checked=focusMode;
+  fitHeight=(d.fitHeight!==false);
+  document.getElementById('fitChk').checked=fitHeight;
   return Promise.all(tasks).then(function(){
+    /* 換算不同畫布尺寸下的物件座標（舊檔預設 1600×800）*/
+    var sw=d.canvasW||1600, sh=d.canvasH||800;
+    if(sw!==W||sh!==H){
+      var kx=W/sw, ky=H/sh;
+      items.forEach(function(it){ it.x*=kx; it.y*=ky; });
+      strokes.forEach(function(st){ st.pts.forEach(function(q){ q.x*=kx; q.y*=ky; }); });
+    }
     /* 舊版（v2）腳位為絕對座標，轉為相對於底圖的座標 */
     var br=boardRect();
     boardPins=boardPins.map(function(p){
@@ -861,7 +1122,7 @@ function loadProject(d){
     boardScaleRow.style.display=board.img?'flex':'none';
     document.getElementById('boardScale').value=Math.round(board.scale*100);
     pruneConnections();
-    renderPalette(); render();
+    renderPalette(); renderConsole(); render();
   });
 }
 
@@ -876,14 +1137,1542 @@ document.getElementById('publishBtn').addEventListener('click',function(){
   alert('已匯出成品網頁！圖片、腳位標記與版面都已內嵌，可直接發布給學生使用。');
 });
 
+/* ================= 腳位鍵值與模擬效果 ================= */
+function pinKey(name){
+  var n=String(name).toUpperCase().replace(/\s/g,'');
+  var m=n.match(/^A(\d+)$/); if(m)return 'A'+m[1];
+  m=n.match(/^D?(\d+)$/); if(m)return String(parseInt(m[1],10));
+  return n;
+}
+function guessEffect(nm){
+  var s=String(nm||'').toUpperCase();
+  if(/LCD|OLED|顯示|螢幕|1602|12864|SSD1306|TM1637|七段|數碼管/.test(s))return 'display';
+  if(/SR04|SRF|超音波|ULTRASON|測距/.test(s))return 'ultrasonic';
+  if(/土壤|水位|雨滴|SOIL|MOISTURE|WATER|RAIN/.test(s))return 'analogIn';
+  if(/DHT|溫濕|溫度|濕度|AM2302|DS18B20|LM35/.test(s))return 'dht';
+  if(/光敏|亮度|照度|LDR|CDS|PHOTO|土壤|水位|雨滴|WATER|SOIL|可變電阻|電位|POT|旋鈕|滑桿|聲音|MIC|音量|火焰|FLAME|煙霧|MQ|搖桿|JOYSTICK|壓力|彎曲/.test(s))return 'analogIn';
+  if(/BUTTON|BTN|按鈕|按鍵|TOUCH|觸摸/.test(s))return 'button';
+  if(/PIR|人體|紅外|IR|避障|循跡|巡線|傾斜|TILT|震動|SHOCK|磁簧|REED|霍爾|HALL|干簧|開關|SWITCH|撞|限位|光電|對射/.test(s))return 'digitalIn';
+  if(/BUZZ|蜂鳴|喇叭|SPEAKER|發聲/.test(s))return 'buzzer';
+  if(/SERVO|伺服|舵機/.test(s))return 'servo';
+  if(/L9110|L298|TB6612|DRV88|驅動|DRIVER|H橋|馬達|MOTOR|N20|TT齒輪|齒輪馬達|減速馬達/.test(s))return 'motor';
+  if(/LED|燈|矩陣|MATRIX|NEOPIXEL|WS2812|RGB|雷射|LASER/.test(s))return 'led';
+  if(/風扇|FAN|水泵|PUMP|繼電器|RELAY/.test(s))return 'led';
+  return 'generic';
+}
+function itemState(it){
+  var pal=palette.find(function(q){return q.id===it.pid;});
+  var res={v:false,g:false,drive:null,sig:null,tone:null,servo:null,hasS:false,hasV:false,hasG:false};
+  if(!pal)return res;
+  res.hasS=(pal.pins||[]).some(function(p){return p.type==='s';});
+  res.hasV=(pal.pins||[]).some(function(p){return p.type==='v';});
+  res.hasG=(pal.pins||[]).some(function(p){return p.type==='g';});
+  connections.forEach(function(cn){
+    var mine=null,other=null;
+    if(cn.a.t==='i'&&cn.a.item===it.id){mine=cn.a;other=cn.b;}
+    else if(cn.b.t==='i'&&cn.b.item===it.id){mine=cn.b;other=cn.a;}
+    if(!mine||!other||other.t!=='b')return;
+    var myPin=(pal.pins||[]).find(function(q){return q.id===mine.pin;});
+    var bp=boardPins.find(function(q){return q.id===other.pin;});
+    if(!myPin||!bp)return;
+    var key=pinKey(bp.name);
+    var numbered=/^\d+$|^A\d+$/.test(key);
+    if(bp.type==='g'&&myPin.type==='g')res.g=true;
+    if(bp.type==='v'&&myPin.type==='v')res.v=true;
+    if(numbered){
+      var st=pinState[key]||{val:0,tone:null,servo:null};
+      if(myPin.type==='s'){
+        res.sig=Math.max(res.sig===null?0:res.sig,st.val);
+        if(st.tone)res.tone=st.tone;
+        if(st.servo!==null&&st.servo!==undefined)res.servo=st.servo;
+      }else if(myPin.type==='v'){
+        res.drive=Math.max(res.drive===null?0:res.drive,st.val);
+      }else if(myPin.type==='g'&&st.val===0){res.g=true;}
+    }
+  });
+  return res;
+}
+function itemBrightness(st){
+  if(!st.g)return 0;
+  var powered=st.v||(st.drive!==null&&st.drive>0);
+  if(st.hasS){
+    if(st.sig===null||!powered)return 0;
+    return st.sig/255;
+  }
+  if(st.drive!==null)return st.drive/255;
+  return st.v?1:0;
+}
+function isMotorOut(name){
+  return /OUT|^O[AB]?[+-]?$|^M[AB]?[+-]$|^MOTOR|馬達|輸出|^[AB][+-]$/i.test(String(name).replace(/\s/g,''));
+}
+function boardKeyOfItemPin(it,pinId){
+  var key=null;
+  connections.forEach(function(cn){
+    var mine=null,other=null;
+    if(cn.a.t==='i'&&cn.a.item===it.id&&cn.a.pin===pinId){mine=cn.a;other=cn.b;}
+    else if(cn.b.t==='i'&&cn.b.item===it.id&&cn.b.pin===pinId){mine=cn.b;other=cn.a;}
+    if(!mine||!other||other.t!=='b')return;
+    var bp=boardPins.find(function(q){return q.id===other.pin;});
+    if(!bp)return;
+    var k=pinKey(bp.name);
+    if(/^\d+$|^A\d+$/.test(k))key=k;
+  });
+  return key;
+}
+function neighborItems(it){
+  var out=[];
+  connections.forEach(function(cn){
+    if(cn.a.t==='i'&&cn.b.t==='i'){
+      if(cn.a.item===it.id){var o=items.find(function(q){return q.id===cn.b.item;});if(o)out.push(o);}
+      else if(cn.b.item===it.id){var o2=items.find(function(q){return q.id===cn.a.item;});if(o2)out.push(o2);}
+    }
+  });
+  return out;
+}
+function motorState(it,depth){
+  depth=depth||0;
+  var res={mode:'stop',speed:0,ok:true,driven:false,inherited:false};
+  var pal=palette.find(function(q){return q.id===it.pid;});
+  if(!pal)return res;
+  var st=itemState(it);
+  if((st.hasV&&!st.v)||(st.hasG&&!st.g)){res.ok=false;return res;}
+  var sPins=(pal.pins||[]).filter(function(p){return p.type==='s';});
+  var ctrl=sPins.filter(function(p){return !isMotorOut(p.name);});
+  if(ctrl.length>=2){
+    var ka=boardKeyOfItemPin(it,ctrl[0].id), kb=boardKeyOfItemPin(it,ctrl[1].id);
+    if(ka||kb){
+      res.driven=true;
+      var a=(ka&&pinState[ka])?pinState[ka].val:0;
+      var b=(kb&&pinState[kb])?pinState[kb].val:0;
+      if(a>0&&b===0){res.mode='fwd';res.speed=a/255;}
+      else if(b>0&&a===0){res.mode='rev';res.speed=b/255;}
+      else if(a>0&&b>0){res.mode='brake';}
+      else{res.mode='stop';}
+      return res;
+    }
+  }
+  /* 沒有直接控制腳（例如 N20 馬達接在驅動模組輸出端）→ 沿模組間連線繼承狀態 */
+  if(depth<2){
+    var nb=neighborItems(it);
+    for(var i=0;i<nb.length;i++){
+      if(effOf(nb[i])!=='motor')continue;
+      var s2=motorState(nb[i],depth+1);
+      if(s2.driven){s2.inherited=true;return s2;}
+    }
+  }
+  return res;
+}
+function wireHot(cn){
+  var hot=false;
+  [cn.a,cn.b].forEach(function(rf){
+    if(rf.t!=='b')return;
+    var bp=boardPins.find(function(q){return q.id===rf.pin;});
+    if(!bp)return;
+    if(bp.type==='v'){hot=true;return;}
+    var k=pinKey(bp.name);
+    if(pinState[k]&&pinState[k].val>0)hot=true;
+  });
+  return hot;
+}
+function badge(c,x,y,text,bg,fg){
+  c.font='500 13px "Noto Sans TC",sans-serif';
+  var w=c.measureText(text).width+16;
+  c.textAlign='center';c.textBaseline='middle';
+  rrPath(c,x-w/2,y-11,w,22,11);
+  c.fillStyle=bg;c.fill();
+  c.fillStyle=fg;c.fillText(text,x,y+1);
+}
+function rrPath(c,x,y,w,h,r){
+  c.beginPath();c.moveTo(x+r,y);
+  c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();
+}
+function drawEffects(c){
+  items.forEach(function(it){
+    var pal=palette.find(function(q){return q.id===it.pid;});
+    if(!pal)return;
+    var eff=pal.effect||'generic';
+    if(eff==='none')return;
+    var st=itemState(it), bb=itemAABB(it);
+    var b=itemBrightness(st);
+    if(eff==='led'&&b>0.02){
+      var R=Math.max(bb.hw,bb.hh)*1.5;
+      var col=pal.ledColor||'#FF3B30';
+      c.save();
+      c.globalCompositeOperation='lighter';
+      var g=c.createRadialGradient(bb.cx,bb.cy,2,bb.cx,bb.cy,R);
+      g.addColorStop(0,hexA(col,0.95*b));
+      g.addColorStop(0.35,hexA(col,0.55*b));
+      g.addColorStop(1,hexA(col,0));
+      c.fillStyle=g;
+      c.beginPath();c.arc(bb.cx,bb.cy,R,0,7);c.fill();
+      c.fillStyle=hexA('#FFFFFF',0.55*b);
+      c.beginPath();c.arc(bb.cx,bb.cy,Math.min(bb.hw,bb.hh)*0.55,0,7);c.fill();
+      c.restore();
+      badge(c,bb.cx,bb.cy-bb.hh-16,'亮度 '+Math.round(b*100)+'%','rgba(255,255,255,.92)','#8F2626');
+    }
+    if(eff==='buzzer'&&(st.tone||(b>0.5))){
+      c.save();
+      c.strokeStyle='rgba(0,135,143,.9)';c.lineWidth=2.5;
+      for(var i=0;i<3;i++){
+        var ph=((anim*1.8)+i*22)%66;
+        c.globalAlpha=1-ph/66;
+        c.beginPath();
+        c.arc(bb.cx+bb.hw*0.2,bb.cy,Math.max(bb.hw,bb.hh)*0.5+ph,-0.9,0.9);
+        c.stroke();
+      }
+      c.restore();
+      badge(c,bb.cx,bb.cy-bb.hh-16,st.tone?('♪ '+Math.round(st.tone)+' Hz'):'♪ 發聲中','rgba(255,255,255,.92)','#00666D');
+    }
+    if(eff==='servo'&&st.servo!==null&&st.servo!==undefined){
+      var ang=(st.servo-90)*Math.PI/180;
+      var L=Math.max(bb.hw,bb.hh)*0.95;
+      c.save();
+      c.translate(bb.cx,bb.cy);c.rotate(ang);
+      c.strokeStyle='#F07F13';c.lineWidth=6;c.lineCap='round';
+      c.beginPath();c.moveTo(0,0);c.lineTo(0,-L);c.stroke();
+      c.fillStyle='#F07F13';c.beginPath();c.arc(0,-L,7,0,7);c.fill();
+      c.restore();
+      c.beginPath();c.arc(bb.cx,bb.cy,8,0,7);c.fillStyle='#22302F';c.fill();
+      badge(c,bb.cx,bb.cy-bb.hh-16,st.servo+'°','rgba(255,255,255,.92)','#8A4B0A');
+    }
+    if(eff==='generic'&&st.sig!==null&&st.g){
+      var on=st.sig>127;
+      c.save();
+      c.strokeStyle=on?'rgba(31,158,77,.95)':'rgba(138,143,152,.7)';
+      c.lineWidth=3;
+      c.beginPath();c.arc(bb.cx,bb.cy,Math.max(bb.hw,bb.hh)*0.75+(on?2*Math.sin(anim/5):0),0,7);c.stroke();
+      c.restore();
+      badge(c,bb.cx,bb.cy-bb.hh-16,on?'HIGH（'+st.sig+'）':'LOW（0）','rgba(255,255,255,.92)',on?'#166B3A':'#5C6B6C');
+    }
+    if(running&&isInputEff(eff)&&eff!=='button'&&!(st.g&&st.v))
+      badge(c,bb.cx,bb.cy+bb.hh+34,!st.g?'⚠ 缺少 G（接地）':'⚠ 缺少 V（電源）','rgba(179,38,30,.94)','#FFFFFF');
+    if(eff==='button'){
+      var down=!!pressed[it.id];
+      var ok=st.g&&st.v;
+      c.save();
+      c.strokeStyle=down?'rgba(31,158,77,.95)':'rgba(0,135,143,.55)';
+      c.lineWidth=down?5:3;
+      c.setLineDash(down?[]:[6,5]);
+      c.beginPath();c.arc(bb.cx,bb.cy,Math.max(bb.hw,bb.hh)*0.85,0,7);c.stroke();
+      c.restore();
+      if(down){
+        c.save();
+        c.globalCompositeOperation='lighter';
+        var bg2=c.createRadialGradient(bb.cx,bb.cy,2,bb.cx,bb.cy,Math.max(bb.hw,bb.hh)*1.2);
+        bg2.addColorStop(0,'rgba(120,255,180,.55)');
+        bg2.addColorStop(1,'rgba(120,255,180,0)');
+        c.fillStyle=bg2;c.beginPath();c.arc(bb.cx,bb.cy,Math.max(bb.hw,bb.hh)*1.2,0,7);c.fill();
+        c.restore();
+      }
+      if(running)
+        badge(c,bb.cx,bb.cy-bb.hh-16,down?'按下中（HIGH）':(ok?'可點我（LOW）':'⚠ 需接 V 與 G'),
+          down?'rgba(31,158,77,.95)':'rgba(255,255,255,.92)',down?'#FFFFFF':(ok?'#00666D':'#B3261E'));
+      else
+        badge(c,bb.cx,bb.cy-bb.hh-16,'輸入元件','rgba(255,255,255,.92)','#00666D');
+    }
+    if(eff==='analogIn'){
+      itemDefaults(it);
+      var pct=it.inA/1023;
+      var bw=Math.max(70,bb.hw*1.6),bx=bb.cx-bw/2,by=bb.cy+bb.hh+10;
+      rrPath(c,bx,by,bw,12,6);c.fillStyle='rgba(255,255,255,.9)';c.fill();
+      c.strokeStyle='rgba(0,0,0,.25)';c.lineWidth=1;c.stroke();
+      rrPath(c,bx+1.5,by+1.5,Math.max(3,(bw-3)*pct),9,4.5);
+      c.fillStyle='#00878F';c.fill();
+      if(st.g&&st.v){
+        c.save();c.globalCompositeOperation='lighter';
+        var ga=c.createRadialGradient(bb.cx,bb.cy,2,bb.cx,bb.cy,Math.max(bb.hw,bb.hh)*1.1);
+        ga.addColorStop(0,'rgba(255,240,160,'+(0.5*pct).toFixed(2)+')');
+        ga.addColorStop(1,'rgba(255,240,160,0)');
+        c.fillStyle=ga;c.beginPath();c.arc(bb.cx,bb.cy,Math.max(bb.hw,bb.hh)*1.1,0,7);c.fill();
+        c.restore();
+      }
+      badge(c,bb.cx,bb.cy-bb.hh-16,'讀值 '+Math.round(it.inA)+' / 1023','rgba(255,255,255,.92)','#00666D');
+    }
+    if(eff==='digitalIn'){
+      itemDefaults(it);
+      var on2=!!it.inD&&st.g&&st.v;
+      c.save();
+      c.strokeStyle=on2?'rgba(31,158,77,.95)':'rgba(138,143,152,.65)';
+      c.lineWidth=on2?5:3;c.setLineDash(on2?[]:[6,5]);
+      c.beginPath();c.arc(bb.cx,bb.cy,Math.max(bb.hw,bb.hh)*0.85,0,7);c.stroke();
+      c.restore();
+      badge(c,bb.cx,bb.cy-bb.hh-16,on2?'偵測到（HIGH）':'未偵測（LOW）',
+        on2?'rgba(31,158,77,.95)':'rgba(255,255,255,.92)',on2?'#FFFFFF':'#5C6B6C');
+    }
+    if(eff==='ultrasonic'){
+      itemDefaults(it);
+      c.save();
+      c.strokeStyle='rgba(0,135,143,.75)';c.lineWidth=2;
+      for(var w2=0;w2<3;w2++){
+        var pw=((anim*1.5)+w2*20)%60;
+        c.globalAlpha=(1-pw/60)*0.9;
+        c.beginPath();
+        c.arc(bb.cx-bb.hw*0.9,bb.cy,14+pw,Math.PI*0.75,Math.PI*1.25);
+        c.stroke();
+      }
+      c.restore();
+      badge(c,bb.cx,bb.cy-bb.hh-16,'距離 '+Math.round(it.dist)+' cm','rgba(255,255,255,.92)','#00666D');
+    }
+    if(eff==='dht'){
+      itemDefaults(it);
+      badge(c,bb.cx,bb.cy-bb.hh-16,it.temp+'°C ／ 濕度 '+it.humi+'%','rgba(255,255,255,.92)','#00666D');
+    }
+    if(eff==='motor'){
+      var ms=motorState(it);
+      var R2=Math.max(bb.hw,bb.hh)*0.7;
+      var spin=(ms.mode==='fwd'||ms.mode==='rev');
+      if(spin){
+        var dir=(ms.mode==='fwd')?1:-1;
+        var ang2=(anim*0.16*(0.25+ms.speed*0.75)*dir)%(Math.PI*2);
+        c.save();
+        c.translate(bb.cx,bb.cy);
+        c.rotate(ang2);
+        c.strokeStyle=(ms.mode==='fwd')?'#1F9E4D':'#2465D6';
+        c.lineWidth=5;c.lineCap='round';
+        for(var sp2=0;sp2<3;sp2++){
+          c.save();c.rotate(sp2*Math.PI*2/3);
+          c.beginPath();c.arc(0,0,R2,-0.5,0.5);c.stroke();
+          c.restore();
+        }
+        c.beginPath();
+        c.arc(0,0,R2,0.5,0.5);
+        c.moveTo(R2*Math.cos(0.5),R2*Math.sin(0.5));
+        c.stroke();
+        c.restore();
+        c.beginPath();c.arc(bb.cx,bb.cy,7,0,7);
+        c.fillStyle=(ms.mode==='fwd')?'#1F9E4D':'#2465D6';c.fill();
+      }else if(ms.mode==='brake'){
+        c.save();
+        c.strokeStyle='#B3261E';c.lineWidth=4;
+        c.beginPath();c.arc(bb.cx,bb.cy,R2,0,7);c.stroke();
+        c.beginPath();
+        c.moveTo(bb.cx-R2*0.6,bb.cy-R2*0.6);c.lineTo(bb.cx+R2*0.6,bb.cy+R2*0.6);
+        c.stroke();
+        c.restore();
+      }
+      if(running){
+        var mtxt=(ms.mode==='fwd')?('正轉 '+Math.round(ms.speed*100)+'%'):
+                 (ms.mode==='rev')?('反轉 '+Math.round(ms.speed*100)+'%'):
+                 (ms.mode==='brake')?'煞車（兩腳同時 HIGH）':'停止';
+        if(!ms.ok)mtxt='⚠ 需接 V 與 G';
+        else if(!ms.driven)mtxt='⚠ 控制腳未接線';
+        badge(c,bb.cx,bb.cy-bb.hh-16,mtxt+(ms.inherited?'（來自驅動模組）':''),
+          (ms.mode==='fwd')?'rgba(31,158,77,.95)':(ms.mode==='rev')?'rgba(36,101,214,.95)':
+          (!ms.ok||!ms.driven)?'rgba(179,38,30,.94)':'rgba(255,255,255,.92)',
+          (ms.mode==='stop'&&ms.ok&&ms.driven)?'#5C6B6C':'#FFFFFF');
+      }else{
+        badge(c,bb.cx,bb.cy-bb.hh-16,'馬達／驅動模組','rgba(255,255,255,.92)','#00666D');
+      }
+    }
+    if(eff==='display'){
+      var dw=Math.max(bb.hw*1.9,150),dh2=Math.max(38,disp.rows*20+12);
+      var dx=bb.cx-dw/2,dy=bb.cy-dh2/2;
+      rrPath(c,dx,dy,dw,dh2,6);
+      c.fillStyle=disp.on?'#123D2E':'#2A322F';c.fill();
+      c.strokeStyle='rgba(0,0,0,.5)';c.lineWidth=2;c.stroke();
+      c.font='500 14px ui-monospace,Menlo,Consolas,monospace';
+      c.textAlign='left';c.textBaseline='middle';
+      c.fillStyle=disp.on?'#8CF5B4':'#59635F';
+      for(var ri=0;ri<disp.rows;ri++){
+        var txt=(disp.grid[ri]||'');
+        c.fillText(txt,dx+8,dy+14+ri*20);
+      }
+      if(!disp.on)badge(c,bb.cx,bb.cy-bb.hh-16,'顯示器（未啟動）','rgba(255,255,255,.92)','#5C6B6C');
+    }
+    if(running&&eff!=='button'&&eff!=='motor'&&!isInputEff(eff)&&st.sig!==null&&st.sig>0
+       &&((st.hasG&&!st.g)||(st.hasV&&!(st.v||st.drive))))
+      badge(c,bb.cx,bb.cy+bb.hh+34,!st.g?'⚠ 缺少 G（接地）':'⚠ 缺少 V（電源）','rgba(179,38,30,.94)','#FFFFFF');
+  });
+}
+function hexA(hex,a){
+  var h=String(hex).replace('#','');
+  if(h.length===3)h=h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+  var n=parseInt(h,16);
+  return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+Math.max(0,Math.min(1,a)).toFixed(3)+')';
+}
+
+/* ================= 輸入感測器與函式庫模擬 ================= */
+var INPUT_EFFECTS=['button','digitalIn','analogIn','ultrasonic','dht'];
+var disp={cols:16,rows:2,grid:['',''],cc:0,cr:0,on:false};
+function isInputEff(e){return INPUT_EFFECTS.indexOf(e)>=0;}
+function itemDefaults(it){
+  if(it.inA===undefined)it.inA=512;
+  if(it.inD===undefined)it.inD=false;
+  if(it.dist===undefined)it.dist=30;
+  if(it.temp===undefined)it.temp=26;
+  if(it.humi===undefined)it.humi=55;
+  return it;
+}
+function effOf(it){
+  var pal=palette.find(function(q){return q.id===it.pid;});
+  return pal?(pal.effect||'generic'):'none';
+}
+function inputItems(){
+  return items.filter(function(it){return isInputEff(effOf(it));});
+}
+function applyInputs(){
+  inputItems().forEach(function(it){
+    itemDefaults(it);
+    var eff=effOf(it), st=itemState(it), keys=itemSignalKeys(it);
+    if(!keys.length)return;
+    var ok=st.g&&st.v;
+    keys.forEach(function(k){
+      var slot=pinSlot(k.key);
+      if(eff==='analogIn'){
+        slot.analog=ok?Math.round(it.inA):0;
+        slot.val=ok?Math.round(it.inA/1023*255):0;
+      }else if(eff==='digitalIn'){
+        slot.val=(ok&&it.inD)?255:0;
+        slot.analog=slot.val?1023:0;
+      }else if(eff==='button'){
+        slot.val=(ok&&pressed[it.id])?255:0;
+        slot.analog=slot.val?1023:0;
+      }
+    });
+  });
+}
+function dhtItemFor(pin){
+  var key=pin===undefined?null:pinKey(pin);
+  var list=items.filter(function(it){return effOf(it)==='dht';});
+  if(key){
+    var hit=list.find(function(it){return itemSignalKeys(it).some(function(k){return k.key===key;});});
+    if(hit)return itemDefaults(hit);
+  }
+  return list.length?itemDefaults(list[0]):null;
+}
+function ultraItemFor(key){
+  var list=items.filter(function(it){return effOf(it)==='ultrasonic';});
+  if(key){
+    var hit=list.find(function(it){return itemSignalKeys(it).some(function(k){return k.key===key;});});
+    if(hit)return itemDefaults(hit);
+  }
+  return list.length?itemDefaults(list[0]):null;
+}
+function dispClear(){disp.grid=[];for(var i=0;i<disp.rows;i++)disp.grid.push('');disp.cc=0;disp.cr=0;}
+function dispSetCursor(c,r){disp.cc=Math.max(0,c|0);disp.cr=Math.min(disp.rows-1,Math.max(0,r|0));}
+function dispPrint(t){
+  t=String(t);
+  while(disp.grid.length<disp.rows)disp.grid.push('');
+  var row=disp.grid[disp.cr]||'';
+  while(row.length<disp.cc)row+=' ';
+  row=row.slice(0,disp.cc)+t+row.slice(disp.cc+t.length);
+  disp.grid[disp.cr]=row.slice(0,disp.cols);
+  disp.cc=Math.min(disp.cols,disp.cc+t.length);
+  disp.on=true;
+}
+function objMethodImpl(name,meth,A){
+  var o=runObjs[name];
+  if(!o)return undefined;
+  var t=o.type;
+  if(t==='Servo'){
+    if(meth==='__new')return 0;
+    if(meth==='attach'){o.pin=A[0];RT.servoAttach(A[0]);return 0;}
+    if(meth==='write'||meth==='writeMicroseconds'){
+      if(o.pin!==null&&o.pin!==undefined)RT.servoWrite(o.pin,meth==='write'?A[0]:(A[0]-1000)/1000*180);
+      return 0;
+    }
+    if(meth==='read'){var sl=pinState[pinKey(o.pin)];return sl&&sl.servo!==null?sl.servo:90;}
+    if(meth==='detach')return 0;
+    return undefined;
+  }
+  if(t==='DHT'){
+    if(meth==='__new'){o.pin=A[0];return 0;}
+    if(meth==='begin')return 0;
+    var di=dhtItemFor(o.pin);
+    if(meth==='readTemperature')return di?di.temp:0;
+    if(meth==='readHumidity')return di?di.humi:0;
+    if(meth==='computeHeatIndex')return di?di.temp:0;
+    return undefined;
+  }
+  if(t==='NewPing'||t==='Ultrasonic'){
+    if(meth==='__new'){o.trig=A[0];o.echo=A[1];return 0;}
+    var ui=ultraItemFor(o.echo!==undefined?pinKey(o.echo):null);
+    var d=ui?ui.dist:0;
+    if(meth==='ping_cm'||meth==='convert_cm'||meth==='distanceRead'||meth==='Ranging')return Math.round(d);
+    if(meth==='ping_in')return Math.round(d/2.54);
+    if(meth==='ping'||meth==='ping_median'||meth==='timing')return Math.round(d*58);
+    return undefined;
+  }
+  if(t==='LiquidCrystal_I2C'||t==='LiquidCrystal'||t==='Adafruit_SSD1306'){
+    if(meth==='__new'){
+      if(t==='LiquidCrystal_I2C'&&A.length>=3){disp.cols=A[1]||16;disp.rows=A[2]||2;}
+      dispClear();return 0;
+    }
+    if(meth==='init'||meth==='begin'||meth==='backlight'||meth==='display'||meth==='home'){
+      if(meth==='home')dispSetCursor(0,0);
+      disp.on=true;return 0;
+    }
+    if(meth==='clear'||meth==='clearDisplay'){dispClear();return 0;}
+    if(meth==='setCursor'){dispSetCursor(A[0],A[1]);return 0;}
+    if(meth==='print'||meth==='println'){
+      dispPrint(A.map(fmtVal).join(' '));
+      if(meth==='println'){disp.cc=0;disp.cr=Math.min(disp.rows-1,disp.cr+1);}
+      return 0;
+    }
+    if(meth==='noBacklight'){disp.on=false;return 0;}
+    if(meth==='setTextSize'||meth==='setTextColor'||meth==='cp437'||meth==='createChar')return 0;
+    return undefined;
+  }
+  if(t==='LedControl'){
+    if(meth==='__new'||meth==='shutdown'||meth==='setIntensity'||meth==='clearDisplay'||
+       meth==='setLed'||meth==='setRow'||meth==='setColumn')return 0;
+    return undefined;
+  }
+  if(t==='Adafruit_NeoPixel'){
+    if(meth==='__new'||meth==='begin'||meth==='clear'||meth==='setBrightness')return 0;
+    if(meth==='setPixelColor'){
+      if(A.length>=4)o.color='rgb('+(A[1]|0)+','+(A[2]|0)+','+(A[3]|0)+')';
+      return 0;
+    }
+    if(meth==='show'){o.shown=true;return 0;}
+    if(meth==='Color')return 0;
+    return undefined;
+  }
+  if(t==='SoftwareSerial'){
+    if(meth==='__new'||meth==='begin')return 0;
+    if(meth==='print'||meth==='println'){RT.print(A.map(fmtVal).join(' ')+(meth==='println'?'\n':''));return 0;}
+    return undefined;
+  }
+  if(meth==='__new')return 0;
+  return undefined;
+}
+
+/* ================= 互動控制台 ================= */
+var consoleBody=document.getElementById('consoleBody');
+function renderConsole(){
+  var list=inputItems();
+  consoleBody.innerHTML='';
+  if(!list.length){
+    var sp=document.createElement('span');
+    sp.className='small';
+    sp.textContent='尚未加入可互動的輸入感測器（在「移動」模式選取感測器，把效果設為按鈕、數位、類比、超音波或溫濕度）。';
+    consoleBody.appendChild(sp);
+    return;
+  }
+  list.forEach(function(it){
+    itemDefaults(it);
+    var pal=palette.find(function(q){return q.id===it.pid;});
+    var eff=effOf(it);
+    var row=document.createElement('div');
+    row.className='ctrlRow';
+    var nm=document.createElement('div');
+    nm.className='ctrlName';
+    var b=document.createElement('b');b.textContent=pal?pal.name:'感測器';
+    var val=document.createElement('span');
+    nm.appendChild(b);nm.appendChild(val);
+    row.appendChild(nm);
+    function mkRange(min,max,cur,unit,setter){
+      var r=document.createElement('input');
+      r.type='range';r.min=min;r.max=max;r.value=cur;r.step=1;
+      r.addEventListener('input',function(){
+        setter(parseInt(r.value,10));
+        val.textContent=r.value+unit;
+        applyInputs();render();
+      });
+      val.textContent=cur+unit;
+      row.appendChild(r);
+      return r;
+    }
+    if(eff==='analogIn'){
+      mkRange(0,1023,Math.round(it.inA),'',function(v){it.inA=v;});
+    }else if(eff==='ultrasonic'){
+      mkRange(2,200,Math.round(it.dist),' cm',function(v){it.dist=v;});
+    }else if(eff==='dht'){
+      var t1=document.createElement('input');
+      t1.type='range';t1.min=-10;t1.max=50;t1.value=Math.round(it.temp);
+      var t2=document.createElement('input');
+      t2.type='range';t2.min=0;t2.max=100;t2.value=Math.round(it.humi);
+      function upd(){val.textContent=it.temp+'°C ／ '+it.humi+'%';}
+      t1.addEventListener('input',function(){it.temp=parseInt(t1.value,10);upd();render();});
+      t2.addEventListener('input',function(){it.humi=parseInt(t2.value,10);upd();render();});
+      upd();row.appendChild(t1);row.appendChild(t2);
+    }else if(eff==='digitalIn'){
+      var tb=document.createElement('button');
+      function paint(){
+        tb.textContent=it.inD?'狀態：HIGH（偵測到）':'狀態：LOW（未偵測）';
+        tb.className=it.inD?'on':'';
+        val.textContent=it.inD?'HIGH':'LOW';
+      }
+      tb.addEventListener('click',function(){it.inD=!it.inD;paint();applyInputs();render();});
+      paint();row.appendChild(tb);
+    }else if(eff==='button'){
+      var pb=document.createElement('button');
+      pb.textContent='按住我（HIGH）';
+      val.textContent=pressed[it.id]?'HIGH':'LOW';
+      pb.addEventListener('pointerdown',function(e){
+        e.preventDefault();
+        if(!running){say('請先按「▶ 執行」再互動。');return;}
+        pressItem(it,true);pb.className='on';val.textContent='HIGH';render();
+      });
+      var rel=function(){if(pressed[it.id]){pressItem(it,false);pb.className='';val.textContent='LOW';render();}};
+      pb.addEventListener('pointerup',rel);
+      pb.addEventListener('pointerleave',rel);
+      row.appendChild(pb);
+    }
+    consoleBody.appendChild(row);
+  });
+}
+
+/* ================= 按鈕互動輸入 ================= */
+function itemSignalKeys(it){
+  var pal=palette.find(function(q){return q.id===it.pid;});
+  var out=[];
+  if(!pal)return out;
+  connections.forEach(function(cn){
+    var mine=null,other=null;
+    if(cn.a.t==='i'&&cn.a.item===it.id){mine=cn.a;other=cn.b;}
+    else if(cn.b.t==='i'&&cn.b.item===it.id){mine=cn.b;other=cn.a;}
+    if(!mine||!other||other.t!=='b')return;
+    var myPin=(pal.pins||[]).find(function(q){return q.id===mine.pin;});
+    var bp=boardPins.find(function(q){return q.id===other.pin;});
+    if(!myPin||!bp||myPin.type!=='s')return;
+    var key=pinKey(bp.name);
+    if(/^\d+$|^A\d+$/.test(key))out.push({key:key,pinName:myPin.name,pinId:myPin.id,boardName:bp.name});
+  });
+  return out;
+}
+function pressItem(it,down){
+  var pal=palette.find(function(q){return q.id===it.pid;});
+  var st=itemState(it);
+  if(down&&(!st.g||!st.v)){
+    say('這個按鈕的 V 或 G 還沒接好，按下也不會有訊號——這就是實際電路的狀況喔！','bad');
+    return;
+  }
+  pressed[it.id]=down;
+  pressing=down?it:null;
+  var keys=itemSignalKeys(it);
+  if(!keys.length&&down){
+    say('這個按鈕的訊號腳（S）還沒接到任何腳位，程式讀不到它。','bad');
+    return;
+  }
+  keys.forEach(function(k){ pinSlot(k.key).val=down?255:0; });
+  if(down){
+    logWrite('👆 按下「'+(pal?pal.name:'按鈕')+'」→ '+keys.map(function(k){return k.boardName+' = HIGH';}).join('、')+'\n');
+    say('已按下「'+(pal?pal.name:'按鈕')+'」：'+keys.map(function(k){return k.boardName;}).join('、')+' 變成 HIGH。','ok');
+  }else{
+    logWrite('👆 放開「'+(pal?pal.name:'按鈕')+'」→ '+keys.map(function(k){return k.boardName+' = LOW';}).join('、')+'\n');
+  }
+}
+
+/* ================= 依接線自動產生程式碼 ================= */
+function asciiName(s){
+  var t=String(s||'').replace(/[^A-Za-z0-9_]/g,'');
+  return t?t:'p';
+}
+function sigTargets(){
+  var out=[],cnt={};
+  items.forEach(function(it){
+    var pal=palette.find(function(q){return q.id===it.pid;});
+    if(!pal)return;
+    var eff=pal.effect||'generic';
+    if(eff==='none')return;
+    var BASE={led:'led',buzzer:'buzzer',servo:'servo',button:'button',display:'lcd',motor:'motor',
+      analogIn:'sensor',digitalIn:'detector',ultrasonic:'ultra',dht:'dht',generic:'pin'};
+    var base=BASE[eff]||'pin';
+    cnt[base]=(cnt[base]||0)+1;
+    var idx=cnt[base];
+    var sPins=(pal.pins||[]).filter(function(p){return p.type==='s';});
+    if(eff==='motor')sPins=sPins.filter(function(p){return !isMotorOut(p.name);});
+    var wired=itemSignalKeys(it);
+    var multi=sPins.length>1;
+    sPins.forEach(function(pin){
+      var w=wired.find(function(q){return q.pinId===pin.id;});
+      out.push({eff:eff,pal:pal,item:it,
+        varName:base+idx+(multi?('_'+asciiName(pin.name)):''),
+        pinName:pin.name,
+        key:w?w.key:null,
+        boardName:w?w.boardName:null});
+    });
+  });
+  return out;
+}
+function keyToNumber(key){
+  if(/^\d+$/.test(key))return key;
+  if(/^A\d+$/.test(key))return key;
+  return null;
+}
+function generateSketch(){
+  var tg=sigTargets();
+  if(!tg.length)return null;
+  var wired=tg.filter(function(t){return t.key;});
+  var L=[];
+  L.push('// 這段程式碼是依照畫布上的接線自動產生的');
+  tg.forEach(function(t){
+    L.push('// '+t.pal.name+' 的 '+t.pinName+' → '+(t.boardName||'⚠ 尚未接線'));
+  });
+  L.push('');
+  var servos=wired.filter(function(t){return t.eff==='servo';});
+  var dhts=wired.filter(function(t){return t.eff==='dht';});
+  var ultras=wired.filter(function(t){return t.eff==='ultrasonic';});
+  var lcds=tg.filter(function(t){return t.eff==='display';});
+  var motors=wired.filter(function(t){return t.eff==='motor';});
+  var analogs=wired.filter(function(t){return t.eff==='analogIn';});
+  var digins=wired.filter(function(t){return t.eff==='button'||t.eff==='digitalIn';});
+  var outs=wired.filter(function(t){return t.eff==='led'||t.eff==='buzzer';});
+  var incs=[];
+  if(servos.length)incs.push('#include <Servo.h>');
+  if(dhts.length)incs.push('#include <DHT.h>');
+  if(lcds.length)incs.push('#include <LiquidCrystal_I2C.h>');
+  if(incs.length){incs.forEach(function(x){L.push(x);});L.push('');}
+  servos.forEach(function(t){L.push('Servo '+t.varName+';');});
+  dhts.forEach(function(t){L.push('DHT '+t.varName+'(' +keyToNumber(t.key)+', DHT11);');});
+  if(lcds.length)L.push('LiquidCrystal_I2C lcd1(0x27, 16, 2);');
+  wired.filter(function(t){return t.eff!=='servo'&&t.eff!=='dht';}).forEach(function(t){
+    L.push('int '+t.varName+' = '+keyToNumber(t.key)+';');
+  });
+  L.push('');
+  L.push('void setup() {');
+  L.push('  Serial.begin(9600);');
+  wired.forEach(function(t){
+    if(t.eff==='servo')L.push('  '+t.varName+'.attach('+keyToNumber(t.key)+');');
+    else if(t.eff==='dht')L.push('  '+t.varName+'.begin();');
+    else if(t.eff==='led'||t.eff==='buzzer'||t.eff==='motor')L.push('  pinMode('+t.varName+', OUTPUT);');
+    else if(t.eff==='ultrasonic')L.push('  pinMode('+t.varName+', '+(/ECHO/i.test(t.pinName)?'INPUT':'OUTPUT')+');');
+    else L.push('  pinMode('+t.varName+', INPUT);');
+  });
+  if(lcds.length){L.push('  lcd1.init();');L.push('  lcd1.backlight();');}
+  L.push('}');
+  L.push('');
+  L.push('void loop() {');
+  function motorPairs(){
+    var groups={};
+    motors.forEach(function(t){
+      var key=t.item.id;
+      groups[key]=groups[key]||[];
+      groups[key].push(t);
+    });
+    return Object.keys(groups).map(function(k){return groups[k];}).filter(function(g){return g.length>=1;});
+  }
+  function motorRun(pad,dir){
+    motorPairs().forEach(function(g){
+      var a=g[0],b=g[1];
+      if(!b){L.push(pad+'digitalWrite('+a.varName+', '+(dir==='fwd'?'HIGH':'LOW')+');');return;}
+      if(dir==='fwd'){
+        L.push(pad+'digitalWrite('+a.varName+', HIGH);');
+        L.push(pad+'digitalWrite('+b.varName+', LOW);');
+      }else if(dir==='rev'){
+        L.push(pad+'digitalWrite('+a.varName+', LOW);');
+        L.push(pad+'digitalWrite('+b.varName+', HIGH);');
+      }else{
+        L.push(pad+'digitalWrite('+a.varName+', LOW);');
+        L.push(pad+'digitalWrite('+b.varName+', LOW);');
+      }
+    });
+  }
+  function turnOn(pad){
+    outs.forEach(function(t){
+      if(t.eff==='buzzer')L.push(pad+'tone('+t.varName+', 784);');
+      else L.push(pad+'digitalWrite('+t.varName+', HIGH);');
+    });
+    servos.forEach(function(t){L.push(pad+t.varName+'.write(180);');});
+    motorRun(pad,'fwd');
+  }
+  function turnOff(pad){
+    outs.forEach(function(t){
+      if(t.eff==='buzzer')L.push(pad+'noTone('+t.varName+');');
+      else L.push(pad+'digitalWrite('+t.varName+', LOW);');
+    });
+    servos.forEach(function(t){L.push(pad+t.varName+'.write(0);');});
+    motorRun(pad,'stop');
+  }
+  var made=false;
+  if(analogs.length&&(outs.length||servos.length||motors.length)){
+    made=true;
+    L.push('  // 讀取感測值，超過門檻就動作（門檻可自行調整）');
+    L.push('  int value = analogRead('+analogs[0].varName+');');
+    L.push('  Serial.print("感測值 = ");');
+    L.push('  Serial.println(value);');
+    if(lcds.length){
+      L.push('  lcd1.clear();');
+      L.push('  lcd1.setCursor(0, 0);');
+      L.push('  lcd1.print("Value: ");');
+      L.push('  lcd1.print(value);');
+    }
+    L.push('  if (value < 400) {');
+    turnOn('    ');
+    L.push('  } else {');
+    turnOff('    ');
+    L.push('  }');
+    L.push('  delay(200);');
+  }else if(ultras.length>=2&&(outs.length||servos.length||motors.length)){
+    made=true;
+    var trig=ultras.find(function(t){return /TRIG/i.test(t.pinName);})||ultras[0];
+    var echo=ultras.find(function(t){return /ECHO/i.test(t.pinName);})||ultras[1];
+    L.push('  // 發出超音波並量測回音時間，換算成距離');
+    L.push('  digitalWrite('+trig.varName+', LOW);');
+    L.push('  delayMicroseconds(2);');
+    L.push('  digitalWrite('+trig.varName+', HIGH);');
+    L.push('  delayMicroseconds(10);');
+    L.push('  digitalWrite('+trig.varName+', LOW);');
+    L.push('  long duration = pulseIn('+echo.varName+', HIGH);');
+    L.push('  int distance = duration / 58;');
+    L.push('  Serial.print("距離 = ");');
+    L.push('  Serial.println(distance);');
+    if(lcds.length){
+      L.push('  lcd1.clear();');
+      L.push('  lcd1.setCursor(0, 0);');
+      L.push('  lcd1.print("Dist: ");');
+      L.push('  lcd1.print(distance);');
+      L.push('  lcd1.print(" cm");');
+    }
+    L.push('  if (distance < 20) {');
+    turnOn('    ');
+    L.push('  } else {');
+    turnOff('    ');
+    L.push('  }');
+    L.push('  delay(200);');
+  }else if(digins.length&&(outs.length||servos.length||motors.length)){
+    made=true;
+    L.push('  // 感測器偵測到訊號（HIGH）就動作');
+    L.push('  if (digitalRead('+digins[0].varName+') == HIGH) {');
+    turnOn('    ');
+    L.push('  } else {');
+    turnOff('    ');
+    L.push('  }');
+    L.push('  delay(100);');
+  }else if(dhts.length){
+    made=true;
+    L.push('  float t = '+dhts[0].varName+'.readTemperature();');
+    L.push('  float h = '+dhts[0].varName+'.readHumidity();');
+    L.push('  Serial.print("溫度 ");');
+    L.push('  Serial.print(t);');
+    L.push('  Serial.print(" C  濕度 ");');
+    L.push('  Serial.println(h);');
+    if(lcds.length){
+      L.push('  lcd1.clear();');
+      L.push('  lcd1.setCursor(0, 0);');
+      L.push('  lcd1.print("Temp: ");');
+      L.push('  lcd1.print(t);');
+      L.push('  lcd1.setCursor(0, 1);');
+      L.push('  lcd1.print("Humi: ");');
+      L.push('  lcd1.print(h);');
+    }
+    L.push('  delay(1000);');
+  }
+  if(!made){
+    if(!wired.length)L.push('  // 目前沒有任何訊號腳完成接線');
+    wired.forEach(function(t){
+      if(t.eff==='led'){
+        L.push('  digitalWrite('+t.varName+', HIGH);');
+        L.push('  delay(500);');
+        L.push('  digitalWrite('+t.varName+', LOW);');
+        L.push('  delay(500);');
+      }else if(t.eff==='buzzer'){
+        L.push('  tone('+t.varName+', 523);');
+        L.push('  delay(300);');
+        L.push('  noTone('+t.varName+');');
+        L.push('  delay(300);');
+      }else if(t.eff==='servo'){
+        L.push('  '+t.varName+'.write(0);');
+        L.push('  delay(500);');
+        L.push('  '+t.varName+'.write(180);');
+        L.push('  delay(500);');
+      }else if(t.eff==='motor'){
+        /* 由下方統一處理，避免同一顆馬達重複輸出 */
+      }else if(t.eff==='analogIn'){
+        L.push('  Serial.print("'+t.varName+' = ");');
+        L.push('  Serial.println(analogRead('+t.varName+'));');
+        L.push('  delay(500);');
+      }else if(t.eff!=='dht'&&t.eff!=='ultrasonic'){
+        L.push('  Serial.print("'+t.varName+' = ");');
+        L.push('  Serial.println(digitalRead('+t.varName+'));');
+        L.push('  delay(500);');
+      }
+    });
+  }
+  if(!made&&motors.length){
+    L.push('  // 馬達正轉 → 停 → 反轉 → 停');
+    motorRun('  ','fwd');
+    L.push('  delay(1000);');
+    motorRun('  ','stop');
+    L.push('  delay(500);');
+    motorRun('  ','rev');
+    L.push('  delay(1000);');
+    motorRun('  ','stop');
+    L.push('  delay(500);');
+  }
+  L.push('}');
+  return L.join('\n')+'\n';
+}
+function applyGenerated(force){
+  var code=generateSketch();
+  if(!code){say('畫布上還沒有可產生程式碼的感測器（需先加入感測器並標記訊號腳）。','bad');return;}
+  if(!force&&codeEl.value.trim()&&!confirm('要用「依接線產生的程式碼」覆蓋目前的程式碼嗎？'))return;
+  if(!document.body.classList.contains('codeOpen'))document.getElementById('codeToggleBtn').click();
+  codeEl.value=code;
+  paintGutter();lastPaint='';paintHighlight();scanCodePins();render();
+  say('已依接線產生程式碼，腳位號碼與畫布完全一致，可直接按「▶ 執行」。','ok');
+}
+function syncPinsToCode(){
+  if(!document.getElementById('syncChk').checked)return;
+  var src=codeEl.value;
+  if(!src.trim())return;
+  var tg=sigTargets().filter(function(t){return t.key;});
+  var changed=[];
+  tg.forEach(function(t){
+    var num=keyToNumber(t.key);
+    if(num===null)return;
+    var reDecl=new RegExp('(int\\s+'+t.varName+'\\s*=\\s*)(A?\\d+)','g');
+    src=src.replace(reDecl,function(m,a,b){
+      if(b!==num)changed.push(t.varName+'：'+b+' → '+num);
+      return a+num;
+    });
+    var reAtt=new RegExp('('+t.varName+'\\s*\\.\\s*attach\\s*\\(\\s*)(A?\\d+)','g');
+    src=src.replace(reAtt,function(m,a,b){
+      if(b!==num)changed.push(t.varName+'.attach：'+b+' → '+num);
+      return a+num;
+    });
+  });
+  if(changed.length){
+    codeEl.value=src;
+    paintGutter();lastPaint='';paintHighlight();scanCodePins();
+    say('接線變更，已自動更新程式碼腳位（'+changed.join('、')+'）。','ok');
+  }
+}
+function afterWiringChange(isNew){
+  if(!document.getElementById('syncChk').checked)return;
+  if(isNew&&!codeEl.value.trim()){
+    var code=generateSketch();
+    if(code){
+      codeEl.value=code;
+      paintGutter();lastPaint='';paintHighlight();scanCodePins();
+      say('已依接線自動寫好程式碼（腳位已帶入），可展開程式碼區查看或直接執行。','ok');
+    }
+    return;
+  }
+  syncPinsToCode();
+}
+document.getElementById('logToggleBtn').addEventListener('click',function(){
+  var panel=document.getElementById('codePanel');
+  var hidden=panel.classList.toggle('logHidden');
+  this.textContent=hidden?'⌃ 展開監控視窗':'⌄ 收合監控視窗';
+});
+document.getElementById('genBtn').addEventListener('click',function(){applyGenerated(false);});
+
+/* ================= 程式碼編輯區 ================= */
+var codeEl=document.getElementById('code');
+var gutter=document.getElementById('gutter');
+var hlLayer=document.getElementById('hlLayer');
+var logEl=document.getElementById('log');
+var hlLines=[], lastPaint='';
+function codeLines(){return codeEl.value.split('\n');}
+function paintGutter(){
+  var n=codeLines().length,s='';
+  for(var i=1;i<=n;i++)s+=i+'\n';
+  gutter.textContent=s;
+}
+function paintHighlight(){
+  var n=codeLines().length;
+  var sig=n+'|'+runLine+'|'+hlLines.join(',');
+  if(sig===lastPaint)return;
+  lastPaint=sig;
+  var html='';
+  for(var i=1;i<=n;i++){
+    var cls=(runLine===i)?'run':(hlLines.indexOf(i)>=0?'match':'');
+    html+='<div class="'+cls+'"></div>';
+  }
+  hlLayer.innerHTML=html;
+  syncScroll();
+  followRunLine();
+}
+function followRunLine(){
+  if(!running||!runLine)return;
+  var lh=20,top=(runLine-1)*lh,h=codeEl.clientHeight;
+  if(!h)return;
+  if(top<codeEl.scrollTop+4||top>codeEl.scrollTop+h-24){
+    codeEl.scrollTop=Math.max(0,top-h/2);
+    gutter.scrollTop=codeEl.scrollTop;
+    hlLayer.scrollTop=codeEl.scrollTop;
+  }
+}
+function highlightCodeLines(a){hlLines=a||[];paintHighlight();}
+function syncScroll(){gutter.scrollTop=codeEl.scrollTop;hlLayer.scrollTop=codeEl.scrollTop;}
+function logWrite(text,isWarn,isHtml){
+  var span=document.createElement('span');
+  if(isHtml)span.innerHTML=text;
+  else if(isWarn){var i2=document.createElement('i');i2.textContent=text;span.appendChild(i2);}
+  else span.textContent=text;
+  logEl.appendChild(span);
+  if(logEl.childNodes.length>400)logEl.removeChild(logEl.firstChild);
+  logEl.scrollTop=logEl.scrollHeight;
+}
+var PIN_FN=/\b(?:pinMode|digitalWrite|analogWrite|digitalRead|analogRead|tone|noTone|attach|servoWrite)\s*\(\s*([A-Za-z_]\w*|\d+)/g;
+function aliasMap(){
+  var map={},re=/\b(?:const\s+)?(?:int|byte|uint8_t|long)\s+(\w+)\s*=\s*(A?\d+)\s*;/g,m;
+  while((m=re.exec(codeEl.value)))map[m[1]]=pinKey(m[2]);
+  return map;
+}
+function resolvePinToken(tok,al){
+  if(/^\d+$/.test(tok))return pinKey(tok);
+  if(/^A\d+$/i.test(tok))return pinKey(tok);
+  if(tok==='LED_BUILTIN')return '13';
+  return (al&&al[tok])||null;
+}
+function scanCodePins(){
+  codePins={};
+  var al=aliasMap();
+  codeLines().forEach(function(ln,i){
+    var m;PIN_FN.lastIndex=0;
+    while((m=PIN_FN.exec(ln))){
+      var k=resolvePinToken(m[1],al);
+      if(!k)continue;
+      codePins[k]=codePins[k]||[];
+      if(codePins[k].indexOf(i+1)<0)codePins[k].push(i+1);
+    }
+  });
+}
+function cursorPin(){
+  if(!document.body.classList.contains('codeOpen'))return;
+  var ln=codeEl.value.slice(0,codeEl.selectionStart).split('\n').length;
+  var text=codeLines()[ln-1]||'',al=aliasMap(),keys=[],m;
+  PIN_FN.lastIndex=0;
+  while((m=PIN_FN.exec(text))){
+    var k=resolvePinToken(m[1],al);
+    if(k&&keys.indexOf(k)<0)keys.push(k);
+  }
+  matchLines=keys;render();
+}
+codeEl.addEventListener('scroll',syncScroll);
+codeEl.addEventListener('input',function(){paintGutter();lastPaint='';paintHighlight();scanCodePins();render();});
+codeEl.addEventListener('click',cursorPin);
+codeEl.addEventListener('keyup',cursorPin);
+codeEl.addEventListener('keydown',function(e){
+  if(e.key==='Tab'){
+    e.preventDefault();
+    var s=codeEl.selectionStart,en=codeEl.selectionEnd;
+    codeEl.value=codeEl.value.slice(0,s)+'  '+codeEl.value.slice(en);
+    codeEl.selectionStart=codeEl.selectionEnd=s+2;
+  }
+});
+document.getElementById('codeToggleBtn').addEventListener('click',function(){
+  var on=document.body.classList.toggle('codeOpen');
+  this.innerHTML=on?'&lt;/&gt; 隱藏程式碼區':'&lt;/&gt; 顯示程式碼區';
+  if(on){paintGutter();lastPaint='';paintHighlight();scanCodePins();}
+  render();scheduleFit();
+});
+var SAMPLES={
+blink:'// LED 閃爍：把 LED 模組的 S 接到 D9、V 接 5V、G 接 GND\nint ledPin = 9;\n\nvoid setup() {\n  pinMode(ledPin, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(ledPin, HIGH);\n  delay(500);\n  digitalWrite(ledPin, LOW);\n  delay(500);\n}\n',
+breath:'// 呼吸燈：用 analogWrite 讓亮度慢慢變化\nint ledPin = 9;\n\nvoid setup() {\n  pinMode(ledPin, OUTPUT);\n}\n\nvoid loop() {\n  for (int v = 0; v <= 255; v += 15) {\n    analogWrite(ledPin, v);\n    delay(40);\n  }\n  for (int v = 255; v >= 0; v -= 15) {\n    analogWrite(ledPin, v);\n    delay(40);\n  }\n}\n',
+two:'// 兩顆 LED 交替閃爍\nint led1 = 9;\nint led2 = 10;\n\nvoid setup() {\n  pinMode(led1, OUTPUT);\n  pinMode(led2, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(led1, HIGH);\n  digitalWrite(led2, LOW);\n  delay(400);\n  digitalWrite(led1, LOW);\n  digitalWrite(led2, HIGH);\n  delay(400);\n}\n',
+buzzer:'// 蜂鳴器：發出兩種音高\nint buzzer = 8;\n\nvoid setup() {\n  pinMode(buzzer, OUTPUT);\n}\n\nvoid loop() {\n  tone(buzzer, 523);\n  delay(400);\n  tone(buzzer, 784);\n  delay(400);\n  noTone(buzzer);\n  delay(600);\n}\n',
+servo:'// 伺服馬達左右擺動\nServo arm;\n\nvoid setup() {\n  arm.attach(9);\n}\n\nvoid loop() {\n  for (int a = 0; a <= 180; a += 10) {\n    arm.write(a);\n    delay(60);\n  }\n  for (int a = 180; a >= 0; a -= 10) {\n    arm.write(a);\n    delay(60);\n  }\n}\n',
+btnled:'// 按鈕控制 LED：按鈕 S 接 D2、LED 的 S 接 D5\n// 執行後用滑鼠按住畫布上的按鈕圖片試試看！\nint button1 = 2;\nint led1 = 5;\n\nvoid setup() {\n  pinMode(button1, INPUT);\n  pinMode(led1, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  if (digitalRead(button1) == HIGH) {\n    digitalWrite(led1, HIGH);\n    Serial.println("按鈕被按下，燈亮！");\n  } else {\n    digitalWrite(led1, LOW);\n  }\n  delay(100);\n}\n',
+light:'// 光敏偵測自動開燈：光敏 S(AO) 接 A0、LED 的 S 接 D5\n// 執行後拉動右側「互動控制台」的滑桿改變光線值\nint light1 = A0;\nint led1 = 5;\n\nvoid setup() {\n  pinMode(led1, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  int value = analogRead(light1);\n  Serial.print("光線值 = ");\n  Serial.println(value);\n\n  if (value < 400) {        // 太暗\n    digitalWrite(led1, HIGH); // 開燈\n  } else {                  // 夠亮\n    digitalWrite(led1, LOW);  // 關燈\n  }\n  delay(200);\n}\n',
+sonar:'// 超音波倒車雷達：Trig 接 D9、Echo 接 D10、蜂鳴器 S 接 D8\n// 執行後用滑桿改變距離，越近叫得越急\nint trigPin = 9;\nint echoPin = 10;\nint buzzer1 = 8;\n\nvoid setup() {\n  pinMode(trigPin, OUTPUT);\n  pinMode(echoPin, INPUT);\n  pinMode(buzzer1, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  digitalWrite(trigPin, LOW);\n  delayMicroseconds(2);\n  digitalWrite(trigPin, HIGH);\n  delayMicroseconds(10);\n  digitalWrite(trigPin, LOW);\n\n  long duration = pulseIn(echoPin, HIGH);\n  int distance = duration / 58;\n  Serial.print("距離 = ");\n  Serial.println(distance);\n\n  if (distance < 15) {\n    tone(buzzer1, 1047);\n    delay(100);\n    noTone(buzzer1);\n    delay(60);\n  } else if (distance < 40) {\n    tone(buzzer1, 784);\n    delay(120);\n    noTone(buzzer1);\n    delay(400);\n  } else {\n    noTone(buzzer1);\n    delay(300);\n  }\n}\n',
+dht:'// 溫濕度感測器（DHT 函式庫）：DATA 接 D2\n#include <DHT.h>\n\nDHT dht1(2, DHT11);\nint fan1 = 5;   // 這裡用 LED 代表風扇\n\nvoid setup() {\n  dht1.begin();\n  pinMode(fan1, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  float t = dht1.readTemperature();\n  float h = dht1.readHumidity();\n  Serial.print("溫度 ");\n  Serial.print(t);\n  Serial.print(" C  濕度 ");\n  Serial.println(h);\n\n  if (t > 28) {\n    digitalWrite(fan1, HIGH);   // 太熱，開風扇\n  } else {\n    digitalWrite(fan1, LOW);\n  }\n  delay(1000);\n}\n',
+lcd:'// LCD 顯示文字（I2C 函式庫）\n#include <LiquidCrystal_I2C.h>\n\nLiquidCrystal_I2C lcd1(0x27, 16, 2);\nint light1 = A0;\n\nvoid setup() {\n  lcd1.init();\n  lcd1.backlight();\n  lcd1.setCursor(0, 0);\n  lcd1.print("Hello Class!");\n  delay(1000);\n}\n\nvoid loop() {\n  int value = analogRead(light1);\n  lcd1.clear();\n  lcd1.setCursor(0, 0);\n  lcd1.print("Light: ");\n  lcd1.print(value);\n  lcd1.setCursor(0, 1);\n  if (value < 400) {\n    lcd1.print("Dark  :(");\n  } else {\n    lcd1.print("Bright :)");\n  }\n  delay(500);\n}\n',
+motor:'// L9110S 馬達驅動：A-IA 接 D5、A-IB 接 D6\n// 馬達（N20）接在驅動模組的 MOTOR A 輸出端\nint motorA1 = 5;   // 正轉腳\nint motorA2 = 6;   // 反轉腳\n\nvoid setup() {\n  pinMode(motorA1, OUTPUT);\n  pinMode(motorA2, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  // 正轉（全速）\n  Serial.println("正轉");\n  digitalWrite(motorA1, HIGH);\n  digitalWrite(motorA2, LOW);\n  delay(1500);\n\n  // 停止\n  Serial.println("停止");\n  digitalWrite(motorA1, LOW);\n  digitalWrite(motorA2, LOW);\n  delay(800);\n\n  // 反轉（半速：用 analogWrite 調速）\n  Serial.println("反轉半速");\n  analogWrite(motorA1, 0);\n  analogWrite(motorA2, 128);\n  delay(1500);\n\n  // 停止\n  digitalWrite(motorA1, LOW);\n  digitalWrite(motorA2, LOW);\n  delay(800);\n}\n',
+matrix:'// 跑馬燈：用 for 迴圈依序點亮 D5 ~ D8\nvoid setup() {\n  for (int p = 5; p <= 8; p++) {\n    pinMode(p, OUTPUT);\n  }\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  for (int p = 5; p <= 8; p++) {\n    digitalWrite(p, HIGH);\n    Serial.print("點亮腳位 D");\n    Serial.println(p);\n    delay(250);\n    digitalWrite(p, LOW);\n  }\n}\n'
+};
+document.getElementById('sampleSel').addEventListener('change',function(e){
+  var k=e.target.value;
+  if(!k)return;
+  if(codeEl.value.trim()&&!confirm('要用範例程式覆蓋目前的程式碼嗎？')){e.target.value='';return;}
+  codeEl.value=SAMPLES[k];
+  e.target.value='';
+  paintGutter();lastPaint='';paintHighlight();scanCodePins();render();
+  say('已載入範例程式，請確認畫布上的接線腳位與程式一致，再按「▶ 執行」。');
+});
+document.getElementById('clearCodeBtn').addEventListener('click',function(){
+  if(!codeEl.value.trim()||confirm('要清空程式碼嗎？')){
+    codeEl.value='';paintGutter();lastPaint='';paintHighlight();scanCodePins();render();
+  }
+});
+
+/* ================= Arduino 語法簡化解譯器 ================= */
+/* ==CORE_START== */
+var RT={pinMode:function(){},digitalWrite:function(){},analogWrite:function(){},tone:function(){},noTone:function(){},
+  digitalRead:function(){return 0;},analogRead:function(){return 512;},servoAttach:function(){},servoWrite:function(){},
+  print:function(){},warn:function(){},line:function(){},millis:function(){return 0;},
+  objMethod:function(){return undefined;},pulseIn:function(){return 0;}};
+var CONSTS={HIGH:1,LOW:0,OUTPUT:1,INPUT:0,INPUT_PULLUP:2,'true':1,'false':0,LED_BUILTIN:13,PI:Math.PI,
+  DHT11:11,DHT22:22,DHT21:21,BLACK:0,WHITE:1,SSD1306_SWITCHCAPVCC:2,
+  A0:'A0',A1:'A1',A2:'A2',A3:'A3',A4:'A4',A5:'A5'};
+var FNS={
+  digitalRead:function(p){return RT.digitalRead(p);},
+  analogRead:function(p){return RT.analogRead(p);},
+  millis:function(){return RT.millis();},
+  micros:function(){return RT.millis()*1000;},
+  map:function(x,a,b,c2,d){return (b-a)===0?c2:Math.trunc((x-a)*(d-c2)/(b-a))+c2;},
+  constrain:function(x,a,b){return Math.min(Math.max(x,a),b);},
+  random:function(a,b){return b===undefined?Math.floor(Math.random()*a):Math.floor(a+Math.random()*(b-a));},
+  abs:Math.abs,min:Math.min,max:Math.max,sqrt:Math.sqrt,pow:Math.pow,sq:function(x){return x*x;},
+  sin:Math.sin,cos:Math.cos,tan:Math.tan,floor:Math.floor,ceil:Math.ceil,round:Math.round
+};
+var ops=0,stopFlag=false,exprCache={};
+var runObjs={},curFns=null,curScope=null;
+var KNOWN_LIBS=['Servo','DHT','NewPing','LiquidCrystal_I2C','LiquidCrystal','Adafruit_SSD1306',
+  'LedControl','SoftwareSerial','DS3231','OneWire','DallasTemperature','Adafruit_NeoPixel','Ultrasonic'];
+FNS.__m=function(o,m){return RT.objMethod(o,m,[].slice.call(arguments,2));};
+FNS.pulseIn=function(p,v,t){return RT.pulseIn(p,v);};
+function buildFns(prog){
+  var f=Object.create(FNS);
+  Object.keys(prog.fns||{}).forEach(function(name){
+    f[name]=function(){
+      var args=[].slice.call(arguments);
+      var node=prog.fns[name];
+      var loc={v:Object.create((curScope&&curScope.v)||{}),fns:prog.fns};
+      (node.params||[]).forEach(function(pn,i){loc.v[pn]=args[i];});
+      var g=runNodes(node.body,loc),r,guard=0,ret=0;
+      while(guard++<20000){
+        r=g.next();
+        if(r.done){if(r.value&&r.value.ret!==undefined)ret=r.value.ret;break;}
+      }
+      return ret;
+    };
+  });
+  return f;
+}
+function stripComments(src){
+  src=src.replace(/\/\*[\s\S]*?\*\//g,function(m){return m.replace(/[^\n]/g,' ');});
+  src=src.replace(/^[ \t]*#[^\n]*/gm,'');
+  return src.replace(/\/\/[^\n]*/g,'');
+}
+function scan(src){
+  var out=[],buf='',line=1,start=1,d=0,q=null;
+  for(var i=0;i<src.length;i++){
+    var ch=src[i];
+    if(ch==='\n'){line++;buf+=' ';continue;}
+    if(!buf.trim()&&ch.trim())start=line;
+    if(q){buf+=ch;if(ch===q&&src[i-1]!=='\\')q=null;continue;}
+    if(ch==='"'||ch==="'"){q=ch;buf+=ch;continue;}
+    if(ch==='('||ch==='['){d++;buf+=ch;continue;}
+    if(ch===')'||ch===']'){if(d>0)d--;buf+=ch;continue;}
+    if(d>0){buf+=ch;continue;}
+    if(ch===';'){out.push({t:'s',s:buf.trim(),line:start});buf='';continue;}
+    if(ch==='{'){out.push({t:'{',s:buf.trim(),line:start});buf='';continue;}
+    if(ch==='}'){if(buf.trim())out.push({t:'s',s:buf.trim(),line:start});out.push({t:'}',line:line});buf='';continue;}
+    buf+=ch;
+  }
+  if(buf.trim())out.push({t:'s',s:buf.trim(),line:start});
+  return out;
+}
+function splitTop(s,sep){
+  var out=[],d=0,q=null,buf='';
+  for(var i=0;i<s.length;i++){
+    var ch=s[i];
+    if(q){buf+=ch;if(ch===q&&s[i-1]!=='\\')q=null;continue;}
+    if(ch==='"'||ch==="'"){q=ch;buf+=ch;continue;}
+    if(ch==='('||ch==='['){d++;buf+=ch;continue;}
+    if(ch===')'||ch===']'){d--;buf+=ch;continue;}
+    if(ch===sep&&d===0){out.push(buf);buf='';continue;}
+    buf+=ch;
+  }
+  out.push(buf);
+  return out;
+}
+function splitArgs(s){return String(s).trim()===''?[]:splitTop(s,',');}
+function headNode(head,body,line){
+  var m=head.match(/^for\s*\(([\s\S]*)\)$/);
+  if(m){var p=splitTop(m[1],';');return{t:'for',init:(p[0]||'').trim(),cond:(p[1]||'').trim(),inc:(p[2]||'').trim(),body:body,line:line};}
+  m=head.match(/^while\s*\(([\s\S]*)\)$/);
+  if(m)return{t:'while',cond:m[1],body:body,line:line};
+  m=head.match(/^if\s*\(([\s\S]*)\)$/);
+  if(m)return{t:'if',cond:m[1],body:body,els:null,line:line};
+  m=head.match(/^(?:void|int|long|float|double|byte|bool|boolean|char)\s+(\w+)\s*\(([^)]*)\)$/);
+  if(m)return{t:'fn',name:m[1],params:m[2].split(',').map(function(s){return s.trim().split(/\s+/).pop();}).filter(Boolean),body:body,line:line};
+  return{t:'blk',body:body,line:line};
+}
+function parseBlocks(tk,i){
+  var nodes=[];
+  while(i<tk.length){
+    var t=tk[i];
+    if(t.t==='}')return{nodes:nodes,i:i+1};
+    if(t.t==='{'){
+      var head=(t.s||'').trim();
+      var inner=parseBlocks(tk,i+1);
+      i=inner.i;
+      if(/^else\b/.test(head)){
+        var prev=nodes[nodes.length-1],rest=head.replace(/^else\s*/,'');
+        if(/^if\s*\(/.test(rest)){
+          var sub=headNode(rest,inner.nodes,t.line);
+          if(prev&&prev.t==='if')prev.els=[sub];else nodes.push(sub);
+        }else{
+          if(prev&&prev.t==='if')prev.els=inner.nodes;else nodes.push({t:'blk',body:inner.nodes,line:t.line});
+        }
+        continue;
+      }
+      nodes.push(headNode(head,inner.nodes,t.line));
+      continue;
+    }
+    if(t.s)nodes.push({t:'s',s:t.s,line:t.line});
+    i++;
+  }
+  return{nodes:nodes,i:i};
+}
+function toJS(src){
+  if(exprCache[src]!==undefined)return exprCache[src];
+  var strs=[],hexs=[];
+  var s=String(src).replace(/"(?:[^"\\]|\\.)*"/g,function(m){strs.push(m);return '\u0000'+(strs.length-1)+'\u0000';});
+  s=s.replace(/\b0[xX][0-9a-fA-F]+/g,function(m){hexs.push(parseInt(m,16));return '\u0002'+(hexs.length-1)+'\u0002';});
+  function ph(lit){strs.push(lit);return '\u0000'+(strs.length-1)+'\u0000';}
+  s=s.replace(/([A-Za-z_]\w*)\s*\.\s*([A-Za-z_]\w*)\s*\(/g,function(m,o,me){
+    return '__f['+ph('"__m"')+']('+ph(JSON.stringify(o))+','+ph(JSON.stringify(me))+',';
+  });
+  s=s.replace(/,\s*\)/g,')');
+  s=s.replace(/([A-Za-z_]\w*)(\s*\()?/g,function(m,name,par){
+    if(name==='__f'||name==='__v'||name==='__m')return m;
+    if(par!==undefined)return '__f['+JSON.stringify(name)+'](';
+    if(CONSTS[name]!==undefined)return JSON.stringify(CONSTS[name]);
+    return '__v['+JSON.stringify(name)+']';
+  });
+  s=s.replace(/\u0000(\d+)\u0000/g,function(m,i){return strs[+i];});
+  s=s.replace(/\u0002(\d+)\u0002/g,function(m,i){return String(hexs[+i]);});
+  var fn=null;
+  try{fn=new Function('__v','__f','"use strict";return ('+s+');');}catch(e){fn=null;}
+  exprCache[src]=fn;
+  return fn;
+}
+function evalExpr(src,sc){
+  if(src===undefined||src===null)return 0;
+  var s=String(src).trim();
+  if(s==='')return 0;
+  if(/^-?\d+(\.\d+)?$/.test(s))return parseFloat(s);
+  var fn=toJS(s);
+  if(!fn){RT.warn('無法計算的算式：'+s);return 0;}
+  curScope=sc;
+  try{var v=fn(sc.v,curFns||FNS);return v===undefined?0:v;}
+  catch(e){RT.warn('算式錯誤：'+s);return 0;}
+}
+function truthy(v){return !!v&&v!==0;}
+function fmtVal(v){return typeof v==='number'?(Math.round(v*1000)/1000):String(v);}
+function runNodes(nodes,sc){
+  return (function*(){
+    for(var i=0;i<nodes.length;i++){
+      var r=yield* runNode(nodes[i],sc);
+      if(r&&(r.brk||r.cont||r.ret!==undefined))return r;
+    }
+  })();
+}
+function* runNode(n,sc){
+  if(stopFlag)return{ret:0};
+  ops++;
+  if(ops%200===0)yield{wait:0};
+  if(n.line)RT.line(n.line);
+  if(n.t==='s')return yield* doStmt(n,sc);
+  if(n.t==='blk')return yield* runNodes(n.body,sc);
+  if(n.t==='fn'){sc.fns[n.name]=n;return;}
+  if(n.t==='if'){
+    if(truthy(evalExpr(n.cond,sc)))return yield* runNodes(n.body,sc);
+    if(n.els)return yield* runNodes(n.els,sc);
+    return;
+  }
+  if(n.t==='while'||n.t==='for'){
+    if(n.t==='for'&&n.init)yield* doStmt({s:n.init,line:n.line},sc);
+    var guard=0;
+    while(true){
+      if(stopFlag)return{ret:0};
+      var cond=(n.cond==='')?true:truthy(evalExpr(n.cond,sc));
+      if(!cond)break;
+      var r=yield* runNodes(n.body,sc);
+      if(r&&r.brk)break;
+      if(r&&r.ret!==undefined)return r;
+      if(n.t==='for'&&n.inc)yield* doStmt({s:n.inc,line:n.line},sc);
+      if(++guard>100000){RT.warn('迴圈次數過多，已強制中止（第 '+n.line+' 行）。');break;}
+      ops++;
+      if(ops%200===0)yield{wait:0};
+    }
+    return;
+  }
+}
+function* doStmt(n,sc){
+  var s=(n.s||'').trim();
+  if(!s)return;
+  if(/^break$/.test(s))return{brk:1};
+  if(/^continue$/.test(s))return{cont:1};
+  var m=s.match(/^return\b([\s\S]*)$/);
+  if(m)return{ret:m[1].trim()?evalExpr(m[1],sc):0};
+  m=s.match(/^([A-Z]\w*)\s+(\w+)\s*(?:\(([\s\S]*)\))?$/);
+  if(m&&KNOWN_LIBS.indexOf(m[1])>=0){
+    var args=(m[3]===undefined||m[3].trim()==='')?[]:splitArgs(m[3]).map(function(a){return evalExpr(a,sc);});
+    runObjs[m[2]]={type:m[1],args:args,pin:null};
+    RT.objMethod(m[2],'__new',args);
+    return;
+  }
+  m=s.match(/^(?:const\s+)?(?:unsigned\s+)?(?:static\s+)?(?:int|long|float|double|byte|bool|boolean|char|word|uint8_t|String)\s+(\w+)\s*(?:=\s*([\s\S]+))?$/);
+  if(m){sc.v[m[1]]=(m[2]!==undefined)?evalExpr(m[2],sc):0;return;}
+  m=s.match(/^(\w+)\s*\.\s*(\w+)\s*\(([\s\S]*)\)$/);
+  if(m)return yield* objCall(m[1],m[2],m[3],sc,n);
+  m=s.match(/^(\w+)\s*(\+\+|--)$/);
+  if(m){sc.v[m[1]]=(sc.v[m[1]]||0)+(m[2]==='++'?1:-1);return;}
+  m=s.match(/^(\+\+|--)\s*(\w+)$/);
+  if(m){sc.v[m[2]]=(sc.v[m[2]]||0)+(m[1]==='++'?1:-1);return;}
+  m=s.match(/^(\w+)\s*(\+=|-=|\*=|\/=|=)\s*([\s\S]+)$/);
+  if(m){
+    var val=evalExpr(m[3],sc),k=m[1],o=sc.v[k]||0;
+    sc.v[k]=(m[2]==='='?val:m[2]==='+='?o+val:m[2]==='-='?o-val:m[2]==='*='?o*val:o/val);
+    return;
+  }
+  m=s.match(/^(\w+)\s*\(([\s\S]*)\)$/);
+  if(m)return yield* callFn(m[1],m[2],sc,n);
+  RT.warn('第 '+n.line+' 行看不懂，已略過：'+s);
+}
+function* callFn(name,argsStr,sc,n){
+  var A=splitArgs(argsStr).map(function(a){return evalExpr(a,sc);});
+  switch(name){
+    case 'delay': yield{wait:Math.max(0,A[0]||0)}; return;
+    case 'delayMicroseconds': yield{wait:Math.max(0,(A[0]||0)/1000)}; return;
+    case 'pinMode': RT.pinMode(A[0],A[1]); return;
+    case 'digitalWrite': RT.digitalWrite(A[0],A[1]); return;
+    case 'analogWrite': RT.analogWrite(A[0],A[1]); return;
+    case 'tone': RT.tone(A[0],A[1]); return;
+    case 'noTone': RT.noTone(A[0]); return;
+    case 'servoWrite': RT.servoWrite(A[0],A[1]); return;
+    case 'pulseIn': RT.pulseIn(A[0],A[1]); return;
+    case 'randomSeed': return;
+  }
+  var f=sc.fns[name];
+  if(f){
+    var loc={v:Object.create(sc.v),fns:sc.fns};
+    (f.params||[]).forEach(function(p,i){loc.v[p]=A[i];});
+    yield* runNodes(f.body,loc);
+    return;
+  }
+  if(FNS[name]){FNS[name].apply(null,A);return;}
+  RT.warn('尚未支援的指令：'+name+'()（第 '+n.line+' 行）');
+}
+function* objCall(obj,meth,argsStr,sc,n){
+  var A=splitArgs(argsStr).map(function(a){return evalExpr(a,sc);});
+  if(obj==='Serial'){
+    if(meth==='print'||meth==='println')RT.print(A.map(fmtVal).join(' ')+(meth==='println'?'\n':''));
+    return;
+  }
+  if(runObjs[obj]){
+    var r=RT.objMethod(obj,meth,A);
+    if(r===undefined)RT.warn('「'+runObjs[obj].type+'」還不支援 '+meth+'()（第 '+n.line+' 行），已略過。');
+    return;
+  }
+  RT.warn('尚未支援的寫法：'+obj+'.'+meth+'()（第 '+n.line+' 行）');
+}
+function prepare(src){
+  var res=parseBlocks(scan(stripComments(src)),0);
+  var out={setup:[],loop:[],globals:[],fns:{}};
+  res.nodes.forEach(function(n){
+    if(n.t==='fn'&&n.name==='setup')out.setup=n.body;
+    else if(n.t==='fn'&&n.name==='loop')out.loop=n.body;
+    else if(n.t==='fn')out.fns[n.name]=n;
+    else out.globals.push(n);
+  });
+  return out;
+}
+function* program(prog,sc){
+  yield* runNodes(prog.globals,sc);
+  if(prog.setup.length)yield* runNodes(prog.setup,sc);
+  if(!prog.loop.length)return;
+  var rounds=0;
+  while(!stopFlag){
+    yield* runNodes(prog.loop,sc);
+    if(++rounds>200000)break;
+    yield{wait:0};
+  }
+}
+/* ==CORE_END== */
+
+/* ================= 執行排程與腳位狀態 ================= */
+var runGen=null,speed=1,virtMs=0;
+function pinSlot(k){if(!pinState[k])pinState[k]={mode:1,val:0,tone:null,servo:null};return pinState[k];}
+RT.pinMode=function(p,m){pinSlot(pinKey(p)).mode=m;};
+RT.digitalWrite=function(p,v){pinSlot(pinKey(p)).val=(v&&v!==0)?255:0;};
+RT.analogWrite=function(p,v){pinSlot(pinKey(p)).val=Math.min(255,Math.max(0,Math.round(v||0)));};
+RT.tone=function(p,f){var s=pinSlot(pinKey(p));s.tone=f||440;s.val=255;};
+RT.noTone=function(p){var s=pinSlot(pinKey(p));s.tone=null;s.val=0;};
+RT.servoAttach=function(p){var s=pinSlot(pinKey(p));if(s.servo===null)s.servo=90;s.val=Math.max(s.val,1);};
+RT.servoWrite=function(p,a){var s=pinSlot(pinKey(p));s.servo=Math.min(180,Math.max(0,Math.round(a||0)));s.val=Math.max(s.val,1);};
+RT.digitalRead=function(p){var s=pinState[pinKey(p)];return (s&&s.val>127)?1:0;};
+RT.analogRead=function(p){
+  var s=pinState[pinKey(p)];
+  if(!s)return 0;
+  if(s.analog!==undefined&&s.analog!==null)return Math.round(s.analog);
+  return Math.round(s.val/255*1023);
+};
+RT.objMethod=function(name,meth,A){return objMethodImpl(name,meth,A);};
+RT.pulseIn=function(p){
+  var ui=ultraItemFor(pinKey(p));
+  if(!ui)return 0;
+  var st=itemState(ui);
+  if(!st.g||!st.v)return 0;
+  return Math.round(ui.dist*58);
+};
+RT.millis=function(){return Math.round(virtMs);};
+RT.print=function(t){logWrite(t,false);};
+RT.warn=function(t){logWrite('⚠ '+t+'\n',true);};
+RT.line=function(l){runLine=l;};
+document.getElementById('speedSel').addEventListener('change',function(e){speed=parseFloat(e.target.value)||1;});
+function startRun(){
+  if(!document.body.classList.contains('codeOpen'))document.getElementById('codeToggleBtn').click();
+  if(running)stopRun(true);
+  if(!codeEl.value.trim()){say('程式碼區是空的，可先從「載入範例程式」挑一個試試。','bad');return;}
+  if(!boardPins.length){say('開發板還沒有標記腳位，模擬時無法對應程式中的腳位編號。','bad');return;}
+  scanCodePins();
+  pinState={};virtMs=0;ops=0;stopFlag=false;runLine=0;exprCache={};
+  logEl.innerHTML='';
+  var prog;
+  try{prog=prepare(codeEl.value);}
+  catch(e){logWrite('⚠ 程式碼解析失敗：'+e.message+'\n',true);return;}
+  var sc={v:{},fns:prog.fns};
+  runObjs={};curFns=buildFns(prog);
+  runGen=program(prog,sc);
+  running=true;
+  applyInputs();
+  document.getElementById('runBtn').textContent='▶ 執行中⋯';
+  logWrite('<b>▶ 開始模擬</b>\n',false,true);
+  say('模擬執行中：亮起來的腳位與感測器就是程式正在控制的對象；若有按鈕模組，可直接用滑鼠按住它互動。','ok');
+  step();animLoop();
+}
+function step(){
+  if(!running)return;
+  var r;
+  try{r=runGen.next();}
+  catch(e){logWrite('⚠ 執行錯誤：'+e.message+'\n',true);stopRun();return;}
+  if(r.done){logWrite('<b>■ 程式執行完畢</b>\n',false,true);stopRun(true);
+    document.getElementById('runBtn').textContent='▶ 執行';return;}
+  var w=(r.value&&r.value.wait)||0;
+  virtMs+=w;
+  if(w<=0)requestAnimationFrame(step);
+  else setTimeout(step,Math.max(0,w/speed));
+}
+function stopRun(quiet){
+  running=false;stopFlag=true;runGen=null;
+  pinState={};runLine=0;pressed={};pressing=null;disp.on=false;dispClear();
+  document.getElementById('runBtn').textContent='▶ 執行';
+  lastPaint='';paintHighlight();render();
+  if(!quiet){logWrite('<b>■ 已停止，所有腳位回到 LOW</b>\n',false,true);say('已停止模擬。');}
+}
+function animLoop(){
+  if(!running)return;
+  anim++;
+  applyInputs();
+  paintHighlight();
+  render();
+  requestAnimationFrame(animLoop);
+}
+document.getElementById('runBtn').addEventListener('click',startRun);
+document.getElementById('stopBtn').addEventListener('click',function(){stopRun();});
+document.getElementById('matchBtn').addEventListener('click',function(){
+  if(!document.body.classList.contains('codeOpen'))document.getElementById('codeToggleBtn').click();
+  scanCodePins();
+  var wired={};
+  connections.forEach(function(cn){
+    [cn.a,cn.b].forEach(function(rf){
+      if(rf.t!=='b')return;
+      var bp=boardPins.find(function(q){return q.id===rf.pin;});
+      if(bp)wired[pinKey(bp.name)]=bp.name;
+    });
+  });
+  var bad=[],info=[];
+  Object.keys(codePins).forEach(function(k){
+    if(!wired[k])bad.push('程式碼第 '+codePins[k].join('、')+' 行用到腳位 '+k+'，但畫布上沒有線接到它。');
+  });
+  Object.keys(wired).forEach(function(k){
+    if(/^\d+$|^A\d+$/.test(k)&&!codePins[k])info.push('腳位 '+wired[k]+' 已接線，但程式碼中沒有用到。');
+  });
+  items.forEach(function(it){
+    var pal=palette.find(function(q){return q.id===it.pid;});
+    if(!pal)return;
+    var st=itemState(it);
+    if(!st.g)bad.push('「'+pal.name+'」的 G（接地）沒有接到 GND。');
+    if(st.hasS&&!(st.v||st.drive))bad.push('「'+pal.name+'」的 V（電源）沒有接到 5V。');
+    if(st.hasS&&st.sig===null)bad.push('「'+pal.name+'」的訊號腳（S）沒有接到任何腳位。');
+  });
+  logEl.innerHTML='';
+  logWrite('<b>🔗 程式與接線對照結果</b>\n',false,true);
+  if(!bad.length&&!info.length)logWrite('全部相符，可以按「▶ 執行」了！\n');
+  bad.forEach(function(t){logWrite('✗ '+t+'\n',true);});
+  info.forEach(function(t){logWrite('• '+t+'\n');});
+  say(bad.length?('發現 '+bad.length+' 個不一致的地方，詳見下方監控視窗。'):'程式與接線相符！',bad.length?'bad':'ok');
+  render();
+});
+
+/* ================= 畫布高度自動配合視窗 ================= */
+var fitHeight=true, fitPending=false;
+var wrapEl=document.querySelector('.wrap');
+var layoutEl=document.querySelector('.layout');
+var stageEl=document.querySelector('.stage');
+var footerEl=document.querySelector('footer');   /* 已移除頁尾，保留相容判斷 */
+var sideL=document.querySelector('.side');
+var sideR=document.querySelector('.side.right');
+var codePanelEl=document.getElementById('codePanel');
+var narrowMQ=window.matchMedia('(max-width:1000px)');
+function clearFit(){
+  cv.style.maxWidth='';
+  [sideL,sideR,codePanelEl].forEach(function(el){if(el)el.style.maxHeight='';});
+}
+function fitCanvas(){
+  if(!fitHeight||narrowMQ.matches){clearFit();return;}
+  var cvR=cv.getBoundingClientRect();
+  var stR=stageEl.getBoundingClientRect();
+  var lyR=layoutEl.getBoundingClientRect();
+  if(!cvR.height||!lyR.height)return;
+  var sy=window.scrollY;
+  /* 以下各項皆與畫布高度無關，因此為穩定不動點，重算不會累積縮小 */
+  var layoutTop=lyR.top+sy;                                  /* 三欄起始位置 */
+  var below=(parseFloat(getComputedStyle(wrapEl).paddingBottom)||0);
+  if(footerEl){
+    var fs=getComputedStyle(footerEl);
+    below+=footerEl.offsetHeight+(parseFloat(fs.marginTop)||0);
+  }
+  var colH=document.documentElement.clientHeight-layoutTop-below-4;
+  colH=Math.max(360,colH);
+  /* 三欄共用同一高度預算：內容超出時各欄自行出現捲軸，頁面不再產生捲軸 */
+  [sideL,sideR,codePanelEl].forEach(function(el){if(el)el.style.maxHeight=colH+'px';});
+  /* 畫布可用高度＝欄高 − 圖庫等上方區塊 − 卡片內提示列 */
+  var aboveInCol=(cvR.top+sy)-layoutTop;
+  var belowInStage=Math.max(0,stR.bottom-cvR.bottom);
+  var availH=Math.max(320,colH-aboveInCol-belowInStage-2);
+  var availW=cvR.width;                      /* 畫布顯示寬度（由格線決定，與高度無關）*/
+  if(availW<200)return;
+  /* 讓邏輯比例等於可用區域比例 → width:100% 時剛好填滿，不留空白也不溢出 */
+  var targetH=Math.round(1600*availH/availW);
+  targetH=Math.min(1800,Math.max(640,targetH));
+  if(setCanvasSize(1600,targetH))render();
+  cv.style.maxWidth='';
+}
+function scheduleFit(){
+  if(fitPending)return;
+  fitPending=true;
+  requestAnimationFrame(function(){
+    fitPending=false;
+    fitCanvas();
+  });
+}
+window.addEventListener('resize',scheduleFit);
+if(narrowMQ.addEventListener)narrowMQ.addEventListener('change',scheduleFit);
+document.querySelector('details.help').addEventListener('toggle',scheduleFit);
+document.getElementById('paletteToggle').addEventListener('click',function(){
+  var g=document.getElementById('paletteGroup');
+  var col=g.classList.toggle('collapsed');
+  this.textContent=col?'▾ 展開圖庫':'▴ 收合圖庫';
+  scheduleFit();
+});
+document.getElementById('fitChk').addEventListener('change',function(e){
+  fitHeight=e.target.checked;
+  if(!fitHeight){clearFit();setCanvasSize(1600,1067);render();
+    say('已改為使用完整畫布寬度（3:2），視窗較矮時會出現頁面捲軸。');}
+  else{say('畫布已配合視窗高度，開啟時不會有頁面捲軸。');}
+  scheduleFit();
+});
+
 /* ---------- 初始化 ---------- */
 setMode('connect');
 renderPalette();
+renderConsole();
+paintGutter();
+paintHighlight();
 render();
+scheduleFit();
+window.addEventListener('load',scheduleFit);
 try{
   var emb=document.getElementById('embedded-data');
   var d=JSON.parse(emb.textContent||'null');
-  if(d)loadProject(d);
+  if(d)loadProject(d).then(function(){
+    renderConsole();
+    scheduleFit();
+    paintGutter();lastPaint='';paintHighlight();scanCodePins();
+    if(document.body.classList.contains('codeOpen'))
+      document.getElementById('codeToggleBtn').innerHTML='&lt;/&gt; 隱藏程式碼區';
+    render();
+  });
 }catch(e){}
 })();
 </script>
