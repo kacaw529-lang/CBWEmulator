@@ -199,7 +199,7 @@ button.stop:hover{background:#8F1D17;}
     <button id="clearAllBtn" class="wide danger">全部清除</button>
     <button id="exportBtn" class="wide primary">⬇ 匯出圖片</button>
   </div>
-  <div class="verTag">開發板接線模擬器 v17</div>
+  <div class="verTag">開發板接線模擬器 v18</div>
 </aside>
 
 <main class="main">
@@ -2470,7 +2470,7 @@ function* program(prog,sc){
 /* ==CORE_END== */
 
 /* ================= 執行排程與腳位狀態 ================= */
-var runGen=null,speed=1,virtMs=0;
+var runGen=null,speed=1,virtMs=0,runToken=0;
 function pinSlot(k){if(!pinState[k])pinState[k]={mode:1,val:0,tone:null,servo:null};return pinState[k];}
 RT.pinMode=function(p,m){pinSlot(pinKey(p)).mode=m;};
 RT.digitalWrite=function(p,v){pinSlot(pinKey(p)).val=(v&&v!==0)?255:0;};
@@ -2514,14 +2514,15 @@ function startRun(){
   runObjs={};curFns=buildFns(prog);
   runGen=program(prog,sc);
   running=true;
+  var tok=++runToken;          /* 每次執行給一個新代號，讓舊的排程鏈自動失效 */
   applyInputs();
   document.getElementById('runBtn').textContent='▶ 執行中⋯';
   logWrite('<b>▶ 開始模擬</b>\n',false,true);
   say('模擬執行中：亮起來的腳位與感測器就是程式正在控制的對象；若有按鈕模組，可直接用滑鼠按住它互動。','ok');
-  step();animLoop();
+  step(tok);animLoop(tok);
 }
-function step(){
-  if(!running)return;
+function step(tok){
+  if(!running||tok!==runToken)return;   /* 舊的排程鏈直接結束，避免重複推進造成加速 */
   var r;
   try{r=runGen.next();}
   catch(e){logWrite('⚠ 執行錯誤：'+e.message+'\n',true);stopRun();return;}
@@ -2529,23 +2530,23 @@ function step(){
     document.getElementById('runBtn').textContent='▶ 執行';return;}
   var w=(r.value&&r.value.wait)||0;
   virtMs+=w;
-  if(w<=0)requestAnimationFrame(step);
-  else setTimeout(step,Math.max(0,w/speed));
+  if(w<=0)requestAnimationFrame(function(){step(tok);});
+  else setTimeout(function(){step(tok);},Math.max(0,w/speed));
 }
 function stopRun(quiet){
-  running=false;stopFlag=true;runGen=null;
+  running=false;stopFlag=true;runGen=null;runToken++;   /* 作廢所有待處理的排程 */
   pinState={};runLine=0;pressed={};pressing=null;disp.on=false;dispClear();
   document.getElementById('runBtn').textContent='▶ 執行';
   lastPaint='';paintHighlight();render();
   if(!quiet){logWrite('<b>■ 已停止，所有腳位回到 LOW</b>\n',false,true);say('已停止模擬。');}
 }
-function animLoop(){
-  if(!running)return;
+function animLoop(tok){
+  if(!running||tok!==runToken)return;
   anim++;
   applyInputs();
   paintHighlight();
   render();
-  requestAnimationFrame(animLoop);
+  requestAnimationFrame(function(){animLoop(tok);});
 }
 document.getElementById('runBtn').addEventListener('click',startRun);
 document.getElementById('stopBtn').addEventListener('click',function(){stopRun();});
